@@ -35,6 +35,7 @@
 // figure out checks
 // figure out what hooks are needed [maybe? menu], if any
 // animations?? nothing major just like a sparkling effect or something?
+// show a toast notif?
 
 // pop up menu grabbed from UI Guide:
 function release_popup() {
@@ -69,7 +70,7 @@ function release_popup() {
 
 
 function release_wild() {
-    var orig_give_item = give_item;
+    var orig_give_item = give_item(item, count);
 
     var new_scope = {
         orig_give_item: orig_give_item
