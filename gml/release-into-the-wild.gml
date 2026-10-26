@@ -83,9 +83,7 @@ function re_wild_is_ari_inventory_full() {
 // need to check if the inv has it already so it doesn't popup when it can be picked up
 
 // pop up menu grabbed from UI Guide:
-function re_wild_popup(_item, _count) {
-    var item = _item
-    var count = _count
+function re_wild_popup() {
 
     var _popup = popup_creator(
         ANCHOR.wrap_for_local("Your inventory is full... "),
@@ -94,12 +92,10 @@ function re_wild_popup(_item, _count) {
     
     _popup.create_button(ANCHOR.wrap_for_local("Drop"), function() {
         show_debug_message("[ui_reference] Dropped");
-        trace("stuff: ", item, count);
     });
 
     _popup.create_button(ANCHOR.wrap_for_local("Release"), function() {
         show_debug_message("[ui_reference] Released");
-        trace("stuff: ", item, count);
         // despawn/delete item
     });
 
@@ -133,7 +129,10 @@ function re_wild_hook() {
             
             if (re_wild_is_ari_inventory_full()) {
                 if (_should_drop == true) {
-                    re_wild_popup(_item, _count);
+                    re_wild_popup();
+                    return; // ?????? thanos snaps everything i try to pick up
+                            // not what I was expecting...
+                            // just wanted a pause!!!!
                 } 
             }
 
