@@ -59,6 +59,10 @@ function release_into_the_wild_register_callbacks() {
     release_into_the_wild_hook();
 }
 
+//-----------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------
+
 // curtosy of Ennea
 // checks if ari's inv in full
 function release_into_the_wild_is_ari_inventory_full() {
@@ -87,6 +91,10 @@ function release_into_the_wild_popup() {
     _popup.spawn();
 }
 
+//-----------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------
+//-----------------------------------------------------------------------------------------------------------
+
 // Hook callback.
 function release_into_the_wild_hook() {     
 
@@ -98,14 +106,21 @@ function release_into_the_wild_hook() {
 
     with new_scope {
         var new_give_item = function () {
-
+            
             // before
+            trace("-- before give");
+            
+            if (release_into_the_wild_is_ari_inventory_full()) {
+                if drop == true {
+                    release_into_the_wild_popup()
+                } 
+            }
 
             // game values
             orig_give_item();
 
             // after
-
+            trace("-- after give");
         };
 
         Ari.give_item = new_give_item;
