@@ -78,16 +78,25 @@ function release_wild() {
     with new_scope {
         var new_give_item = function(){
 
-            var if_should_drop = should_drop
+            var if_should_drop = should_drop;
+            var is_critter = false;
 
-            if (if_should_drop > 0 && instance_exists == false) {
-                release_popup();
+            if (fish == true || bug == true){
+                is_critter = true;
+            }else{
+                is_critter = false;
+            };
+            
+            if (if_should_drop > 0){
+                if (instance_exists == false && is_creature == true){
+                    release_popup();
+                };
             };
             
             orig_give_item();
         };
     };
-}
+};
 
 // -----------------------------------------------------------
 // from toolbar-wrap
