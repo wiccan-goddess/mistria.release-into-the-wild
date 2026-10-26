@@ -62,12 +62,11 @@ function re_wild_register_callbacks() {
 }
 
 // ConditionFactory vars?
+// how'd I call em?
 // function re_wild_is_creature() {
 //     var bug = BugIsValid
 //     var fish = FishIsValid
 // };
-
-// not really sure if that's needed or would work lol
 
 //-----------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------
@@ -84,7 +83,7 @@ function re_wild_is_ari_inventory_full() {
 // need to check if the inv has it already so it doesn't popup when it can be picked up
 
 // pop up menu grabbed from UI Guide:
-function re_wild_popup() {
+function re_wild_popup(_item, _count) {
     var _popup = popup_creator(
         ANCHOR.wrap_for_local("Your inventory is full... "),
         ANCHOR.wrap_for_local("What'll you do with the little one?")
@@ -92,22 +91,30 @@ function re_wild_popup() {
     
     _popup.create_button(ANCHOR.wrap_for_local("Drop"), function() {
         show_debug_message("[ui_reference] Dropped");
+        trace("stuff: ", _item, _count);
     });
 
     _popup.create_button(ANCHOR.wrap_for_local("Release"), function() {
         show_debug_message("[ui_reference] Released");
+        trace("stuff: ", _item, _count);
         // despawn/delete item
     });
 
     _popup.spawn();
 }
 
+// delete_item_from_world fn? but it'd have to be that exact item and only the one that was just picked up
+// scary sounding function ngl
+
+// does drain do something similar? it sounds safer lol
+
+
 //-----------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------
 
 // Hook callback.
-function re_wild_hook() {     
+function re_wild_hook() {
 
     var orig_give_item = ARI.give_item;
 
@@ -123,7 +130,7 @@ function re_wild_hook() {
             
             if (re_wild_is_ari_inventory_full()) {
                 if (_should_drop == true) {
-                    re_wild_popup();
+                    re_wild_popup(_item, _count);
                 } 
             }
 
