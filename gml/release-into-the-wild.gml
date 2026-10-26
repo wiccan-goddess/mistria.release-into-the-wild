@@ -89,6 +89,16 @@ function re_wild_tool_check() {
     
     if (item != undefined) {
         if (item.prototype.tool_type == ToolType.Net || item.prototype.tool_type == ToolType.FishingRod) {
+            if (item.prototype.tool_type == ToolType.Net) {
+                show_debug_message("NETNETNETNETNETNETNETNETNETNETNET");
+                _sound = "net";
+            }
+            if (item.prototype.tool_type == ToolType.FishingRod) {
+                show_debug_message("RODRODRODRODRODRODRODRODRODRODROD");
+                _sound = "rod";
+            }
+            show_debug_message("Cleared that lol");
+            show_debug_message(_sound);
             return true;
         }
     }
@@ -113,31 +123,19 @@ function re_wild_is_ari_inventory_full() {
 //     return instance_exists(inst) ? inst : undefined;
 // }
 
-// // or
-
-// function drop_item(value, xx, yy, z_offset=0) {
-//     var array = drop_item_input_cleanup(value);
-//     if array == undefined {
-//         return;
-//     }
-
-//     for (var i = 0; i < array_length(array); i++) {
-//         var item = array[i];
-//         item = is_struct(item) ? item : new LiveItem(item);
-//         drop_item_default_setup(
-//             instance_create_layer(xx, yy, "Instances", obj_item),
-//             List(item),
-//             drop_item_random_dir_distance(),
-//             z_offset
-//         );
-//     }
 //     TANGO.play("SoundEffects/Inventory/ItemDrop", xx, yy);
 // }
 
 // need to check if the inv has it already so it doesn't popup when it can be picked up
 
+//SOUNDS
+// TANGO.play("SoundEffects/Animals/SingleFishRun", xx, yy);
+// TANGO.play("SoundEffects/Animals/BugSpawn", xx, yy);
+
 // pop up menu grabbed from UI Guide:
-function re_wild_popup(_dropped) {
+function re_wild_popup(_dropped, _sound) {  // gives LiveItem (blehbleh)
+                                    // remove 'LiveItem (' + ')'
+                                    // either that or see if spawn can push it
 
     var _popup = popup_creator(
         ANCHOR.wrap_for_local("Your inventory is full... "),
@@ -150,6 +148,7 @@ function re_wild_popup(_dropped) {
 
     _popup.create_button(ANCHOR.wrap_for_local("Release"), function() {
         show_debug_message("[ui_reference] Released");
+        show_debug_message(_sound);
         //KILL IT WITH FIRE
     });
 
@@ -179,7 +178,7 @@ function re_wild_hook() {
             // before
             var holding_tool = re_wild_tool_check()
 
-            trace("-- before give");
+            trace("-- before give", _sound);
 
             if (holding_tool == true) {
                 trace("TOOL");
