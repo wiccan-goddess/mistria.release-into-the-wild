@@ -37,6 +37,16 @@
 // animations?? nothing major just like a sparkling effect or something?
 // show a toast notif?
 
+// Runtime state initialization.
+function __toolbar_wrap_runtime() {
+    if (global[$ "__toolbar_wrap"] == undefined) {
+        global.__toolbar_wrap = { registered_hooks: undefined };
+    }
+    return global.__toolbar_wrap;
+}
+
+//-------------------------------------------------------------------------------------------------------------
+
 // pop up menu grabbed from UI Guide:
 function release_popup() {
     var _popup = popup_creator(
@@ -98,3 +108,14 @@ function release_wild() {
         };
     };
 };
+
+function ConditionFactory() {
+    var bug = BugIsValid;
+    var fish = FishIsValid;
+};
+
+
+//-------------------------------------------------------------------------------------------------------------
+// MMAPI mod declaration and hook registration.
+mmapi_mod_declare("toolbar_wrap", "1.0.2");
+toolbar_wrap_register_callbacks();
