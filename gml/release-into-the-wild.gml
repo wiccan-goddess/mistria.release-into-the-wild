@@ -1,34 +1,37 @@
-// Runtime state initialization.
-function __release_into_the_wild_runtime() {
-    if (global[$ "__release_into_the_wild"] == undefined) {
-        global.__release_into_the_wild = { registered_hooks: undefined };
-    }
-    return global.__release_into_the_wild;
-}
+// credits to these lovely people in the unoficial discord:
+// Thunderhorsekid (showing me where to look and giving me general tips)
 
-// Hook callback registration.
-function release_into_the_wild_register_callbacks() {
-    var _rt = __release_into_the_wild_runtime();
-    if (_rt.registered_hooks != undefined) return;
-    _rt.registered_hooks = true;
+// https://mikesbookshelf.com/gml/scripts/GameplaySystems/Inventory/Inventory.html
+// https://mikesbookshelf.com/gml/scripts/GameplaySystems/Player/Ari.html#L466
 
-    mmapi_on("game.new_day", release_into_the_wild_new_day); // EVENT hook registration
-}
+// give_item() function in Ari.gml
+// var can_fit = self.inventory.room_for_item(item); Ari.inventory.room_for_item(item)
 
-// Hook callback.
-// game.new_day is an EVENT: the return value is ignored.
-function release_into_the_wild_new_day(_ctx) {
-    // _ctx contains { total_days }.
-    // create_notification takes a LOCALIZATION KEY, not raw text (the engine
-    // runs it through local_get). Wrapping with ANCHOR.wrap_for_local lets raw
-    // text through - fine for a first mod. Shipped mods register real keys
-    // instead (translatable, filter-aware): see SNIPPETS.md "Show a
-    // Notification" and Mod Anatomy's "User-Facing Text".
-    create_notification(ANCHOR.wrap_for_local("Day " + string(_ctx.total_days) + " begins."));
-    mmapi_log_info("release_into_the_wild", "new day: " + string(_ctx.total_days));
-    mmapi_log_flush("release_into_the_wild"); // make this one-line proof visible immediately
-}
+// this might not need to be a hook thing... not sure tho
 
-// MMAPI mod declaration and hook registration.
-mmapi_mod_declare("release_into_the_wild", "1.0.0");
-release_into_the_wild_register_callbacks();
+// quick notes:
+// room for item is no then that'd be a drop
+// find a way to register the net and fishing rod only for being held so if it drops when holding them it'll most likely be a fish or insect
+// create a two option menu [release/drop]
+// drop would be default vanilla
+// release would despawn said dropped item
+
+// flow roughly:
+// the first two checks might be interchangalbe
+
+// check if inventory is full everytime it changes
+//     if yes then check for fishing rod or net
+//         if rod or net
+//             open menu
+//                 if option to release
+//                     despawn what should be dropped
+//                     notify that the creature went home
+//                 if option to drop do nothing
+//         if no then do nothing
+//     if no then do nothing
+
+// to-do
+// menu setup
+// scope ari or inventory so .self works
+// figure out checks
+// figure out what hooks are needed [maybe menu?], if any
