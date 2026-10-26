@@ -84,6 +84,9 @@ function re_wild_is_ari_inventory_full() {
 
 // pop up menu grabbed from UI Guide:
 function re_wild_popup(_item, _count) {
+    var item = _item
+    var count = _count
+
     var _popup = popup_creator(
         ANCHOR.wrap_for_local("Your inventory is full... "),
         ANCHOR.wrap_for_local("What'll you do with the little one?")
@@ -91,12 +94,12 @@ function re_wild_popup(_item, _count) {
     
     _popup.create_button(ANCHOR.wrap_for_local("Drop"), function() {
         show_debug_message("[ui_reference] Dropped");
-        trace("stuff: ", _item, _count);
+        trace("stuff: ", item, count);
     });
 
     _popup.create_button(ANCHOR.wrap_for_local("Release"), function() {
         show_debug_message("[ui_reference] Released");
-        trace("stuff: ", _item, _count);
+        trace("stuff: ", item, count);
         // despawn/delete item
     });
 
