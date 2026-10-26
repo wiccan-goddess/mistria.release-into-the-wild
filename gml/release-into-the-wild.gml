@@ -39,17 +39,36 @@
 // show a toast notif?
 
 // Runtime state initialization.
-function __toolbar_wrap_runtime() {
-    if (global[$ "__toolbar_wrap"] == undefined) {
-        global.__toolbar_wrap = { registered_hooks: undefined };
+function __release_into_the_wild_runtime() {
+    if (global[$ "__release_into_the_wild"] == undefined) {
+        global.__release_into_the_wild = { registered_hooks: undefined };
     }
-    return global.__toolbar_wrap;
+    return global.__release_into_the_wild;
 }
 
-//-------------------------------------------------------------------------------------------------------------
+// Hook callback registration.
+function release_into_the_wild_register_callbacks() {
+    var _rt = __release_into_the_wild_runtime();
+
+    if (_rt.registered_hooks != undefined) {
+        return;
+    }
+
+    _rt.registered_hooks = true;
+
+    release_into_the_wild_hook();
+}
+
+// curtosy of Ennea
+// checks if ari's inv in full
+function release_into_the_wild_is_ari_inventory_full() {
+    return !ARI.inventory.slots.any(function(a) {
+        return a.count == 0;
+    });
+}
 
 // pop up menu grabbed from UI Guide:
-function release_popup() {
+function release_into_the_wild_popup() {
     var _popup = popup_creator(
         ANCHOR.wrap_for_local("Your inventory is full... "),
         ANCHOR.wrap_for_local("What'll you do with the little one?")
@@ -68,49 +87,36 @@ function release_popup() {
     _popup.spawn();
 }
 
-// curtosy of Ennea
-// checks if ari's inv in full
-function YOUR_PREFIX_HERE_is_ari_inventory_full () {
-    return !ARI.inventory.slots.any(function(a) {
-        return a.count == 0;
-    });
+// Hook callback.
+function release_into_the_wild_hook() {     
+
+    var orig_give_item = Ari.give_item;
+
+    var new_scope = {
+        orig_give_item: orig_give_item
+    };
+
+    with new_scope {
+        var new_give_item = function () {
+
+            // before
+
+            // game values
+            orig_give_item();
+
+            // after
+
+        };
+
+        Ari.give_item = new_give_item;
+    }
+
+
+    mmapi_log_info("release_into_the_wild", "mod loaded yay?");
+    mmapi_log_flush("release_into_the_wild"); // make this one-line proof visible immediately
 }
-
-// // checks
-
-//     // Scripts/GameplaySystems/Player/Ari
-//     function give_item
-//         if should_drop
-
-//     // Scripts/GameplaySystems/Data/Conditions/Conditions
-//     function ConditionFactory
-//         static FishIsValid
-//         static BugIsValid
-
-// something like this or have it integrate with the popup which would make sense
-// if this is just a check?
-// so check with this and then use the outcome in the popup?
-// function release_wild() {
-//     var _orig_give_item = give_item();
-//     var _space_left = room_for_iten;
-
-//     if _space_left < 0 {
-//         if bjug == true || fish == true {
-//             release_popup()
-//         }
-//     }
-
-//     return;
-// };
-
-// maybe?
-function ConditionFactory() {
-    var bug = BugIsValid;
-    var fish = FishIsValid;
-};
-
 
 //-------------------------------------------------------------------------------------------------------------
 // MMAPI mod declaration and hook registration.
-mmapi_mod_declare("toolbar_wrap", "1.0.2");
-toolbar_wrap_register_callbacks();
+mmapi_mod_declare("release_into_the_wild", "1.0.0");
+release_into_the_wild_register_callbacks();
