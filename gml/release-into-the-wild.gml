@@ -103,7 +103,7 @@ function re_wild_tool_check() {
     return false;
 }
 
-function re_wild_sound_set() {
+function re_wild_sound_set(_sound, xx, yy) {
     if (_sound == "net") {
         TANGO.play("SoundEffects/Animals/BugSpawn", xx, yy);
     }
@@ -113,10 +113,8 @@ function re_wild_sound_set() {
 }
 
 function re_wild_magic_trick(_dropped) {
-    var _dropped = {
-        //trim trim
-    }
-    var _creature = _dropped
+    var _creature = _dropped.item_id;
+    instance_destroy(_creature);
 }
 
 //-----------------------------------------------------------------------------------------------------------
@@ -143,7 +141,7 @@ function re_wild_is_ari_inventory_full() {
 // need to check if the inv has it already so it doesn't popup when it can be picked up
 
 // pop up menu grabbed from UI Guide:
-function re_wild_popup(_dropped, _sound) {  // gives LiveItem (blehbleh)
+function re_wild_popup(_dropped, _sound, xx, yy) {  // gives LiveItem (blehbleh)
                                     // remove 'LiveItem (' + ')'
                                     // either that or see if spawn can push it
 
@@ -158,8 +156,8 @@ function re_wild_popup(_dropped, _sound) {  // gives LiveItem (blehbleh)
 
     _popup.create_button(ANCHOR.wrap_for_local("Release"), function() {
         show_debug_message("[ui_reference] Released");
-        //re_wild_sound_set();
-        //re_wild_magic_trick(_dropped);
+        re_wild_sound_set(_sound, xx, yy);
+        re_wild_magic_trick(_dropped);
 
     });
 
@@ -184,20 +182,23 @@ function re_wild_hook() {
     };
 
     with new_scope {
-        var new_give_item = function (_item, _count, _show_toast = true, _should_drop = true, _can_fit) {
+        var new_give_item = function (_item, _count, _show_toast = true, _should_drop = true) {
             
             // before
             var holding_tool = re_wild_tool_check()
 
             trace("-- before give");
 
-            if (holding_tool == true && _can_fit == false) {
+            if (holding_tool == true) {
                 trace("TOOL");
                 if (re_wild_is_ari_inventory_full()) {
                     if (_should_drop == true) {
                         _dropped = _item // hopefully this passes it over
+                        var xx = ARI.x;
+                        var yy = ARI.y; // grab ariIIII
+
                         trace(_dropped);
-                        re_wild_popup(_dropped);
+                        re_wild_popup(_dropped, xx, yy);
                         //return; // is banned lmao, thanos snaps everything i try to pick up
                                 // not what I was expecting...
                                 // just wanted a pause!!!!
