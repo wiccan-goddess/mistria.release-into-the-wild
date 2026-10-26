@@ -101,7 +101,7 @@ function release_into_the_wild_hook() {
 
     var orig_give_item = ARI.give_item;
 
-    var new_scope = {
+    var new_scoe = {
         orig_give_item: orig_give_item
     };
 
