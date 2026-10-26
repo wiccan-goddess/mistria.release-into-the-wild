@@ -103,18 +103,17 @@ function re_wild_tool_check() {
     return false;
 }
 
-function re_wild_sound_set(_sound, xx, yy) {
+function re_wild_sound_set() {
     if (_sound == "net") {
-        TANGO.play("SoundEffects/Animals/BugSpawn", xx, yy);
+        TANGO.play("SoundEffects/Animals/BugSpawn", AUDIO_LISTENER_X , AUDIO_LISTENER_Y);
     }
     if (_sound == "rod") {
-        TANGO.play("SoundEffects/Animals/SingleFishRun", xx, yy);
+        TANGO.play("SoundEffects/Animals/SingleFishRun", AUDIO_LISTENER_X , AUDIO_LISTENER_Y);
     }
 }
 
 function re_wild_magic_trick(_dropped) {
-    var _creature = _dropped.item_id;
-    instance_destroy(_creature);
+    drop_item(_dropped.item_id);
 }
 
 //-----------------------------------------------------------------------------------------------------------
@@ -141,7 +140,7 @@ function re_wild_is_ari_inventory_full() {
 // need to check if the inv has it already so it doesn't popup when it can be picked up
 
 // pop up menu grabbed from UI Guide:
-function re_wild_popup(_dropped, _sound, xx, yy) {  // gives LiveItem (blehbleh)
+function re_wild_popup(_dropped, _sound) {  // gives LiveItem (blehbleh)
                                     // remove 'LiveItem (' + ')'
                                     // either that or see if spawn can push it
 
@@ -156,8 +155,8 @@ function re_wild_popup(_dropped, _sound, xx, yy) {  // gives LiveItem (blehbleh)
 
     _popup.create_button(ANCHOR.wrap_for_local("Release"), function() {
         show_debug_message("[ui_reference] Released");
-        re_wild_sound_set(_sound, xx, yy);
-        re_wild_magic_trick(_dropped);
+        re_wild_sound_set();
+        //re_wild_magic_trick(_dropped);
 
     });
 
@@ -194,12 +193,10 @@ function re_wild_hook() {
                 if (re_wild_is_ari_inventory_full()) {
                     if (_should_drop == true) {
                         _dropped = _item // hopefully this passes it over
-                        var xx = ARI.x;
-                        var yy = ARI.y; // grab ariIIII
 
-                        trace(_dropped);
-                        re_wild_popup(_dropped, xx, yy);
-                        //return; // is banned lmao, thanos snaps everything i try to pick up
+                        trace(_dropped, _dropped.item_id);
+                        re_wild_popup(_dropped);
+                        return; // is banned lmao, thanos snaps everything i try to pick up
                                 // not what I was expecting...
                                 // just wanted a pause!!!!
                     } 
