@@ -38,7 +38,7 @@
 // figure out what hooks are needed [def menu || not sure what else yet], if any
 
 // pop up menu:
-function uiref_message_popup() {
+function release_popup() {
     var _popup = popup_creator(
         ANCHOR.wrap_for_local("Your inventory is full... "),
         ANCHOR.wrap_for_local("What'll you do with the little one?")
@@ -50,6 +50,7 @@ function uiref_message_popup() {
 
     _popup.create_button(ANCHOR.wrap_for_local("Release them :)"), function() {
         show_debug_message("[ui_reference] They went home!!!");
+        // despawn item
     });
 
     _popup.spawn();
@@ -57,35 +58,54 @@ function uiref_message_popup() {
 
 // scoping the needed functions
 
-// checks
+// // checks
 
-    // Scripts/GameplaySystems/Player/Ari
-    function give_item
-        if should_drop
+//     // Scripts/GameplaySystems/Player/Ari
+//     function give_item
+//         if should_drop
 
-    // Scripts/GameplaySystems/Data/Conditions/Conditions
-    function ConditionFactory
-        static FishIsValid
-        static BugIsValid
+//     // Scripts/GameplaySystems/Data/Conditions/Conditions
+//     function ConditionFactory
+//         static FishIsValid
+//         static BugIsValid
 
 
+function release_wild() {
+    var orig_give_item = give_item;
 
+    var new_scope = {
+        orig_give_item: orig_give_item
+    };
+
+    with new_scope {
+        var new_give_item = function(){
+
+            orig_give_item();
+
+            var if_should_drop = should_drop
+
+            if (if_should_drop > 0 && instance_exists == false) {
+                release_popup();
+            };
+        };
+    };
+}
 
 // -----------------------------------------------------------
 // from toolbar-wrap
 // -----------------------------------------------------------
 
 // Runtime state initialization.
-function __release_into_the_wild_runtime() {
-    if (global[$ "__release_into_the_wild"] == undefined) {
-        global.__release_into_the_wild = { registered_hooks: undefined };
+function __toolbar_wrap_runtime() {
+    if (global[$ "__toolbar_wrap"] == undefined) {
+        global.__toolbar_wrap = { registered_hooks: undefined };
     }
-    return global.__release_into_the_wild;
+    return global.__toolbar_wrap;
 }
 
 // Hook callback registration.
-function release_into_the_wild_register_callbacks() {
-    var _rt = __release_into_the_wild_runtime();
+function toolbar_wrap_register_callbacks() {
+    var _rt = __toolbar_wrap_runtime();
 
     if (_rt.registered_hooks != undefined) {
         return;
@@ -93,11 +113,11 @@ function release_into_the_wild_register_callbacks() {
 
     _rt.registered_hooks = true;
 
-    mmapi_on("ui.menu_opened", release_into_the_wild_menu_opened); // EVENT hook registration
+    mmapi_on("ui.menu_opened", toolbar_wrap_menu_opened); // EVENT hook registration
 }
 
 // Hook callback.
-function release_into_the_wild_menu_opened(_ctx) {     
+function toolbar_wrap_menu_opened(_ctx) {     
     // from sopholopho code example should just check for the toolbar
     var _menu = _ctx.menu;
 
@@ -145,10 +165,10 @@ function release_into_the_wild_menu_opened(_ctx) {
     }
 
 
-    mmapi_log_info("release_into_the_wild", "mod loaded yay?");
-    mmapi_log_flush("release_into_the_wild"); // make this one-line proof visible immediately
+    mmapi_log_info("toolbar_wrap", "mod loaded yay?");
+    mmapi_log_flush("toolbar_wrap"); // make this one-line proof visible immediately
 }
 
 // MMAPI mod declaration and hook registration.
-mmapi_mod_declare("release_into_the_wild", "1.0.0");
-release_into_the_wild_register_callbacks();
+mmapi_mod_declare("toolbar_wrap", "1.0.0");
+toolbar_wrap_register_callbacks();
