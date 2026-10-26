@@ -78,13 +78,13 @@ function release_wild() {
     with new_scope {
         var new_give_item = function(){
 
-            orig_give_item();
-
             var if_should_drop = should_drop
 
             if (if_should_drop > 0 && instance_exists == false) {
                 release_popup();
             };
+            
+            orig_give_item();
         };
     };
 }
