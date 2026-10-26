@@ -97,12 +97,26 @@ function re_wild_tool_check() {
                 show_debug_message("RODRODRODRODRODRODRODRODRODRODROD");
                 _sound = "rod";
             }
-            show_debug_message("Cleared that lol");
-            show_debug_message(_sound);
             return true;
         }
     }
     return false;
+}
+
+function re_wild_sound_set() {
+    if (_sound == "net") {
+        TANGO.play("SoundEffects/Animals/BugSpawn", xx, yy);
+    }
+    if (_sound == "rod") {
+        TANGO.play("SoundEffects/Animals/SingleFishRun", xx, yy);
+    }
+}
+
+function re_wild_magic_trick(_dropped) {
+    var _dropped = {
+        //trim trim
+    }
+    var _creature = _dropped
 }
 
 //-----------------------------------------------------------------------------------------------------------
@@ -128,10 +142,6 @@ function re_wild_is_ari_inventory_full() {
 
 // need to check if the inv has it already so it doesn't popup when it can be picked up
 
-//SOUNDS
-// TANGO.play("SoundEffects/Animals/SingleFishRun", xx, yy);
-// TANGO.play("SoundEffects/Animals/BugSpawn", xx, yy);
-
 // pop up menu grabbed from UI Guide:
 function re_wild_popup(_dropped, _sound) {  // gives LiveItem (blehbleh)
                                     // remove 'LiveItem (' + ')'
@@ -148,8 +158,9 @@ function re_wild_popup(_dropped, _sound) {  // gives LiveItem (blehbleh)
 
     _popup.create_button(ANCHOR.wrap_for_local("Release"), function() {
         show_debug_message("[ui_reference] Released");
-        show_debug_message(_sound);
-        //KILL IT WITH FIRE
+        //re_wild_sound_set();
+        //re_wild_magic_trick(_dropped);
+
     });
 
     _popup.spawn();
@@ -173,14 +184,14 @@ function re_wild_hook() {
     };
 
     with new_scope {
-        var new_give_item = function (_item, _count, _show_toast = true, _should_drop = true) {
+        var new_give_item = function (_item, _count, _show_toast = true, _should_drop = true, _can_fit) {
             
             // before
             var holding_tool = re_wild_tool_check()
 
-            trace("-- before give", _sound);
+            trace("-- before give");
 
-            if (holding_tool == true) {
+            if (holding_tool == true && _can_fit == false) {
                 trace("TOOL");
                 if (re_wild_is_ari_inventory_full()) {
                     if (_should_drop == true) {
