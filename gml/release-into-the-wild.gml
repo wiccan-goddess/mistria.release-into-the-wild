@@ -130,7 +130,7 @@ function re_wild_hook() {
             if (re_wild_is_ari_inventory_full()) {
                 if (_should_drop == true) {
                     re_wild_popup();
-                    return; // ?????? thanos snaps everything i try to pick up
+                            // return; is banned lmao, thanos snaps everything i try to pick up
                             // not what I was expecting...
                             // just wanted a pause!!!!
                 } 
