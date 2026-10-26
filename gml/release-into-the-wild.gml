@@ -106,7 +106,11 @@ function release_into_the_wild_hook() {
     };
 
     with new_scope {
+<<<<<<< HEAD
         var new_give_item = function (_item, _should_drop = true) {
+=======
+        var new_give_item = function (_item, _count, _show_toast = true, _should_drop = true) {
+>>>>>>> a2754a37e0f1ac04d91a9951e909d6319c7cac38
             
             // before
             trace("-- before give ", _item);
@@ -118,7 +122,11 @@ function release_into_the_wild_hook() {
             }
 
             // game values
+<<<<<<< HEAD
             orig_give_item(_item, _should_drop);
+=======
+            orig_give_item(_item, _count, _show_toast, _should_drop);
+>>>>>>> a2754a37e0f1ac04d91a9951e909d6319c7cac38
 
             // after
             trace("-- after give");
