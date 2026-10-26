@@ -31,12 +31,14 @@
 //     if no then do nothing
 
 // to-do #1
-// menu setup
 // scope ari or inventory so .self works if neeeded
 // figure out checks
-// figure out what hooks are needed [maybe? menu], if any
+// figure out what hooks are needed [maybe? menu], if any <- SAVE GAME LOADED IS DEF NEEDED LMAO
 // animations?? nothing major just like a sparkling effect or something?
 // show a toast notif?
+
+// yes it's the toolbar code
+// it works tho
 
 // Runtime state initialization.
 function __release_into_the_wild_runtime() {
@@ -78,13 +80,12 @@ function release_into_the_wild_popup() {
         ANCHOR.wrap_for_local("What'll you do with the little one?")
     );
     
-    _popup.create_button(ANCHOR.wrap_for_local("Drop them :("), function() {
-        show_debug_message("[ui_reference] YOU ARE EVIL");
-        // original fn
+    _popup.create_button(ANCHOR.wrap_for_local("Drop"), function() {
+        show_debug_message("[ui_reference] Dropped");
     });
 
-    _popup.create_button(ANCHOR.wrap_for_local("Release them :)"), function() {
-        show_debug_message("[ui_reference] They went home!!!");
+    _popup.create_button(ANCHOR.wrap_for_local("Release"), function() {
+        show_debug_message("[ui_reference] Released");
         // despawn/delete item
     });
 
@@ -105,10 +106,10 @@ function release_into_the_wild_hook() {
     };
 
     with new_scope {
-        var new_give_item = function (_item, _count, _show_toast = true, _should_drop = true) {
+        var new_give_item = function (_item, _should_drop = true) {
             
             // before
-            trace("-- before give");
+            trace("-- before give ", _item);
             
             if (release_into_the_wild_is_ari_inventory_full()) {
                 if _should_drop == true {
@@ -117,7 +118,7 @@ function release_into_the_wild_hook() {
             }
 
             // game values
-            orig_give_item(_item, _count, _show_toast, _should_drop);
+            orig_give_item(_item, _should_drop);
 
             // after
             trace("-- after give");
