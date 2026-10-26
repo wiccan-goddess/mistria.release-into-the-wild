@@ -41,16 +41,16 @@
 // it works tho
 
 // Runtime state initialization.
-function __release_into_the_wild_runtime() {
-    if (global[$ "__release_into_the_wild"] == undefined) {
-        global.__release_into_the_wild = { registered_hooks: undefined };
+function __re_wild_runtime() {
+    if (global[$ "__re_wild"] == undefined) {
+        global.__re_wild = { registered_hooks: undefined };
     }
-    return global.__release_into_the_wild;
+    return global.__re_wild;
 }
 
 // Hook callback registration.
-function release_into_the_wild_register_callbacks() {
-    var _rt = __release_into_the_wild_runtime();
+function re_wild_register_callbacks() {
+    var _rt = __re_wild_runtime();
 
     if (_rt.registered_hooks != undefined) {
         return;
@@ -58,8 +58,16 @@ function release_into_the_wild_register_callbacks() {
 
     _rt.registered_hooks = true;
 
-    mmapi_on("save.game_loaded", release_into_the_wild_hook);
+    mmapi_on("save.game_loaded", re_wild_hook);
 }
+
+// ConditionFactory vars?
+// function re_wild_is_creature() {
+//     var bug = BugIsValid
+//     var fish = FishIsValid
+// };
+
+// not really sure if that's needed or would work lol
 
 //-----------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------
@@ -67,14 +75,16 @@ function release_into_the_wild_register_callbacks() {
 
 // curtosy of Ennea
 // checks if ari's inv in full
-function release_into_the_wild_is_ari_inventory_full() {
+function re_wild_is_ari_inventory_full() {
     return !ARI.inventory.slots.any(function(a) {
         return a.count == 0;
     });
 }
 
+// need to check if the inv has it already so it doesn't popup when it can be picked up
+
 // pop up menu grabbed from UI Guide:
-function release_into_the_wild_popup() {
+function re_wild_popup() {
     var _popup = popup_creator(
         ANCHOR.wrap_for_local("Your inventory is full... "),
         ANCHOR.wrap_for_local("What'll you do with the little one?")
@@ -97,36 +107,28 @@ function release_into_the_wild_popup() {
 //-----------------------------------------------------------------------------------------------------------
 
 // Hook callback.
-function release_into_the_wild_hook() {     
+function re_wild_hook() {     
 
     var orig_give_item = ARI.give_item;
 
-    var new_scoe = {
+    var new_scope = {
         orig_give_item: orig_give_item
     };
 
     with new_scope {
-<<<<<<< HEAD
-        var new_give_item = function (_item, _should_drop = true) {
-=======
         var new_give_item = function (_item, _count, _show_toast = true, _should_drop = true) {
->>>>>>> a2754a37e0f1ac04d91a9951e909d6319c7cac38
             
             // before
-            trace("-- before give ", _item);
+            trace("-- before give");
             
-            if (release_into_the_wild_is_ari_inventory_full()) {
-                if _should_drop == true {
-                    release_into_the_wild_popup()
+            if (re_wild_is_ari_inventory_full()) {
+                if (_should_drop == true) {
+                    re_wild_popup();
                 } 
             }
 
             // game values
-<<<<<<< HEAD
-            orig_give_item(_item, _should_drop);
-=======
             orig_give_item(_item, _count, _show_toast, _should_drop);
->>>>>>> a2754a37e0f1ac04d91a9951e909d6319c7cac38
 
             // after
             trace("-- after give");
@@ -143,4 +145,4 @@ function release_into_the_wild_hook() {
 //-------------------------------------------------------------------------------------------------------------
 // MMAPI mod declaration and hook registration.
 mmapi_mod_declare("release_into_the_wild", "1.0.0");
-release_into_the_wild_register_callbacks();
+re_wild_register_callbacks();
