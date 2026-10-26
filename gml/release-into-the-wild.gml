@@ -1,6 +1,7 @@
 // credits to these lovely people in the unoficial discord:
 // Thunderhorsekid: showing me where to look and giving me general tips
 // Felix - (D3Ulo): for the UI reference guide
+// Ennea Lyhsayin: literally awesome
 
 // tips/links from thunder
 // https://mikesbookshelf.com/gml/scripts/GameplaySystems/Inventory/Inventory.html
@@ -67,6 +68,14 @@ function release_popup() {
     _popup.spawn();
 }
 
+// curtosy of Ennea
+// checks if ari's inv in full
+function YOUR_PREFIX_HERE_is_ari_inventory_full () {
+    return !ARI.inventory.slots.any(function(a) {
+        return a.count == 0;
+    });
+}
+
 // // checks
 
 //     // Scripts/GameplaySystems/Player/Ari
@@ -78,37 +87,23 @@ function release_popup() {
 //         static FishIsValid
 //         static BugIsValid
 
+// something like this or have it integrate with the popup which would make sense
+// if this is just a check?
+// so check with this and then use the outcome in the popup?
+// function release_wild() {
+//     var _orig_give_item = give_item();
+//     var _space_left = room_for_iten;
 
-function release_wild() {
-    var orig_give_item = give_item(item, count);
+//     if _space_left < 0 {
+//         if bjug == true || fish == true {
+//             release_popup()
+//         }
+//     }
 
-    var new_scope = {
-        orig_give_item: orig_give_item
-    };
+//     return;
+// };
 
-    with new_scope {
-        var new_give_item = function(){
-
-            var if_should_drop = should_drop;
-            var is_critter = false;
-
-            if (fish == true || bug == true){
-                is_critter = true;
-            }else{
-                is_critter = false;
-            };
-            
-            if (if_should_drop > 0){
-                if (instance_exists == false && is_creature == true){
-                    release_popup();
-                };
-            };
-            
-            orig_give_item();
-        };
-    };
-};
-
+// maybe?
 function ConditionFactory() {
     var bug = BugIsValid;
     var fish = FishIsValid;
