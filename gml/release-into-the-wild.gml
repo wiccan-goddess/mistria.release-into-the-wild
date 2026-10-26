@@ -56,7 +56,7 @@ function release_into_the_wild_register_callbacks() {
 
     _rt.registered_hooks = true;
 
-    release_into_the_wild_hook();
+    mmapi_on("save.game_loaded", release_into_the_wild_hook);
 }
 
 //-----------------------------------------------------------------------------------------------------------
@@ -98,32 +98,32 @@ function release_into_the_wild_popup() {
 // Hook callback.
 function release_into_the_wild_hook() {     
 
-    var orig_give_item = Ari.give_item;
+    var orig_give_item = ARI.give_item;
 
     var new_scope = {
         orig_give_item: orig_give_item
     };
 
     with new_scope {
-        var new_give_item = function () {
+        var new_give_item = function (_item, _count, _show_toast = true, _should_drop = true) {
             
             // before
             trace("-- before give");
             
             if (release_into_the_wild_is_ari_inventory_full()) {
-                if drop == true {
+                if _should_drop == true {
                     release_into_the_wild_popup()
                 } 
             }
 
             // game values
-            orig_give_item();
+            orig_give_item(_item, _count, _show_toast, _should_drop);
 
             // after
             trace("-- after give");
         };
 
-        Ari.give_item = new_give_item;
+        ARI.give_item = new_give_item;
     }
 
 

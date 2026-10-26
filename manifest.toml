@@ -3,4 +3,4 @@ author = "Eepy Kitty"
 version = "1.0.0"
 minInstallerVersion = "0.14.0"
 manifestVersion = 1
-requires_hooks = [""]
+requires_hooks = ["save.game_loaded"]
