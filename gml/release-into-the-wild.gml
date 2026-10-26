@@ -68,6 +68,20 @@ function re_wild_register_callbacks() {
 //     var fish = FishIsValid
 // };
 
+// check for fishing rod or net
+// function held_item() {
+//     return self.inventory.slot(self.held_item_index).item;
+// }
+
+//grab values from Item/enum ToolTypes
+function re_wild_tool_check() {
+    if (ToolType == FishingRod || ToolType == Net) {
+        var tool_check = true
+    } else {
+        var tool_check = false
+    }
+}
+
 //-----------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------
@@ -79,6 +93,33 @@ function re_wild_is_ari_inventory_full() {
         return a.count == 0;
     });
 }
+
+// function spawn_bug_object(xx, yy, bug, spawn_canopy=true) {
+//     var inst = instance_create_depth(xx, yy, 0, obj_bug);
+//     inst.setup(bug, spawn_canopy);
+//     return instance_exists(inst) ? inst : undefined;
+// }
+
+// // or
+
+// function drop_item(value, xx, yy, z_offset=0) {
+//     var array = drop_item_input_cleanup(value);
+//     if array == undefined {
+//         return;
+//     }
+
+//     for (var i = 0; i < array_length(array); i++) {
+//         var item = array[i];
+//         item = is_struct(item) ? item : new LiveItem(item);
+//         drop_item_default_setup(
+//             instance_create_layer(xx, yy, "Instances", obj_item),
+//             List(item),
+//             drop_item_random_dir_distance(),
+//             z_offset
+//         );
+//     }
+//     TANGO.play("SoundEffects/Inventory/ItemDrop", xx, yy);
+// }
 
 // need to check if the inv has it already so it doesn't popup when it can be picked up
 
@@ -107,7 +148,6 @@ function re_wild_popup() {
 
 // does drain do something similar? it sounds safer lol
 
-
 //-----------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------
@@ -125,16 +165,20 @@ function re_wild_hook() {
         var new_give_item = function (_item, _count, _show_toast = true, _should_drop = true) {
             
             // before
-            trace("-- before give");
-            
-            if (re_wild_is_ari_inventory_full()) {
-                if (_should_drop == true) {
-                    re_wild_popup();
-                            // return; is banned lmao, thanos snaps everything i try to pick up
-                            // not what I was expecting...
-                            // just wanted a pause!!!!
-                } 
-            }
+            trace("-- before give", tool_check);
+
+            if (tool_check == true) {
+                if (re_wild_is_ari_inventory_full()) {
+                    if (_should_drop == true) {
+                        re_wild_popup();
+                                // return; is banned lmao, thanos snaps everything i try to pick up
+                                // not what I was expecting...
+                                // just wanted a pause!!!!
+                    } 
+                }
+            }else{
+                return;
+            };
 
             // game values
             orig_give_item(_item, _count, _show_toast, _should_drop);
