@@ -2,13 +2,11 @@
 // Thunderhorsekid: showing me where to look and giving me general tips
 // Felix - (D3Ulo): for the UI reference guide
 
+// tips/links from thunder
 // https://mikesbookshelf.com/gml/scripts/GameplaySystems/Inventory/Inventory.html
 // https://mikesbookshelf.com/gml/scripts/GameplaySystems/Player/Ari.html#L466
-
 // give_item() function in Ari.gml
 // var can_fit = self.inventory.room_for_item(item); Ari.inventory.room_for_item(item)
-
-// this might not need to be a hook thing... not sure tho
 
 // quick notes:
 // room for item is no then that'd be a drop
@@ -33,11 +31,11 @@
 
 // to-do
 // menu setup
-// scope ari or inventory so .self works
+// scope ari or inventory so .self works if neeeded
 // figure out checks
-// figure out what hooks are needed [def menu || not sure what else yet], if any
+// figure out what hooks are needed [maybe? menu], if any
 
-// pop up menu:
+// pop up menu grabbed from UI Guide:
 function release_popup() {
     var _popup = popup_creator(
         ANCHOR.wrap_for_local("Your inventory is full... "),
