@@ -1,7 +1,9 @@
 // credits to these lovely people in the unoficial discord:
 // Thunderhorsekid: showing me where to look and giving me general tips
 // Felix - (D3Ulo): for the UI reference guide
-// Ennea Lyhsayin: literally awesome
+// Ennea Lyhsayin: literally awesome like wtf...
+// crys (scopecreepingherself): RETURN IS WRONG
+// but seriously thanks to everyone in the discord, you guys are amazing <3
 
 // tips/links from thunder
 // https://mikesbookshelf.com/gml/scripts/GameplaySystems/Inventory/Inventory.html
@@ -148,7 +150,7 @@ function re_wild_popup() {
 
     _popup.create_button(ANCHOR.wrap_for_local("Release"), function() {
         show_debug_message("[ui_reference] Released");
-        // despawn/delete item
+        //KILL IT WITH FIRE
     });
 
     _popup.spawn();
@@ -177,27 +179,25 @@ function re_wild_hook() {
             // before
             var holding_tool = re_wild_tool_check()
 
-            trace("-- before give", holding_tool);
+            trace("-- before give");
 
             if (holding_tool == true) {
                 trace("TOOL");
                 if (re_wild_is_ari_inventory_full()) {
                     if (_should_drop == true) {
                         re_wild_popup();
-                        return; // is banned lmao, thanos snaps everything i try to pick up
+                        //return; // is banned lmao, thanos snaps everything i try to pick up
                                 // not what I was expecting...
                                 // just wanted a pause!!!!
                     } 
                 }
-            }else{
-                trace("NO TOOL");
-
-                // game values
-                orig_give_item(_item, _count, _show_toast, _should_drop);
-
-                // after
-                trace("-- after give");
             };
+
+            // game values
+            orig_give_item(_item, _count, _show_toast, _should_drop);
+
+            // after
+            trace("-- after give");
         };
 
         ARI.give_item = new_give_item;
