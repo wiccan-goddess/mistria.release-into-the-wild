@@ -112,8 +112,8 @@ function re_wild_sound_set() {
     }
 }
 
-function re_wild_magic_trick(_item) {
-    drop_item(_item);
+function re_wild_magic_trick(_dropped) {
+    drop_item(_dropped.item_id);
 }
 
 //-----------------------------------------------------------------------------------------------------------
@@ -140,7 +140,7 @@ function re_wild_is_ari_inventory_full() {
 // need to check if the inv has it already so it doesn't popup when it can be picked up
 
 // pop up menu grabbed from UI Guide:
-function re_wild_popup(_item, _sound) {  // gives LiveItem (blehbleh)
+function re_wild_popup(_dropped, _sound) {  // gives LiveItem (blehbleh)
                                     // remove 'LiveItem (' + ')'
                                     // either that or see if spawn can push it
 
@@ -151,13 +151,12 @@ function re_wild_popup(_item, _sound) {  // gives LiveItem (blehbleh)
     
     _popup.create_button(ANCHOR.wrap_for_local("Drop"), function() {
         show_debug_message("[ui_reference] Dropped");
+        re_wild_magic_trick(_dropped);
     });
 
     _popup.create_button(ANCHOR.wrap_for_local("Release"), function() {
         show_debug_message("[ui_reference] Released");
         re_wild_sound_set();
-        //re_wild_magic_trick(_item);
-
     });
 
     _popup.spawn();
@@ -192,9 +191,11 @@ function re_wild_hook() {
                 trace("TOOL");
                 if (re_wild_is_ari_inventory_full()) {
                     if (_should_drop == true) {
-                        trace(_item);
-                        re_wild_popup(_item);
-                        //return; // is banned lmao, thanos snaps everything i try to pick up
+                        _dropped = _item // hopefully this passes it over
+
+                        trace(_dropped, _dropped.item_id);
+                        re_wild_popup(_dropped);
+                        return; // is banned lmao, thanos snaps everything i try to pick up
                                 // not what I was expecting...
                                 // just wanted a pause!!!!
                     } 
