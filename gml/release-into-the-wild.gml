@@ -29,11 +29,12 @@
 //         if no then do nothing
 //     if no then do nothing
 
-// to-do
+// TODO #1
 // menu setup
 // scope ari or inventory so .self works if neeeded
 // figure out checks
 // figure out what hooks are needed [maybe? menu], if any
+// animations?? nothing major just like a sparkling effect or something?
 
 // pop up menu grabbed from UI Guide:
 function release_popup() {
@@ -53,8 +54,6 @@ function release_popup() {
 
     _popup.spawn();
 }
-
-// scoping the needed functions
 
 // // checks
 
