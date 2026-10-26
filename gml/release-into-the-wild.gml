@@ -151,7 +151,6 @@ function re_wild_popup(_dropped) {
     _popup.create_button(ANCHOR.wrap_for_local("Release"), function() {
         show_debug_message("[ui_reference] Released");
         //KILL IT WITH FIRE
-        instance_destroy_safe(_dropped);// truly hope this works
     });
 
     _popup.spawn();
@@ -187,6 +186,7 @@ function re_wild_hook() {
                 if (re_wild_is_ari_inventory_full()) {
                     if (_should_drop == true) {
                         _dropped = _item // hopefully this passes it over
+                        trace(_dropped);
                         re_wild_popup(_dropped);
                         //return; // is banned lmao, thanos snaps everything i try to pick up
                                 // not what I was expecting...
