@@ -1,5 +1,6 @@
 // credits to these lovely people in the unoficial discord:
-// Thunderhorsekid (showing me where to look and giving me general tips)
+// Thunderhorsekid: showing me where to look and giving me general tips
+// Felix - (D3Ulo): for the UI reference guide
 
 // https://mikesbookshelf.com/gml/scripts/GameplaySystems/Inventory/Inventory.html
 // https://mikesbookshelf.com/gml/scripts/GameplaySystems/Player/Ari.html#L466
@@ -35,3 +36,21 @@
 // scope ari or inventory so .self works
 // figure out checks
 // figure out what hooks are needed [maybe menu?], if any
+
+// pop up menu:
+function uiref_message_popup() {
+    var _popup = popup_creator(
+        ANCHOR.wrap_for_local("Your inventory is full... "),
+        ANCHOR.wrap_for_local("What'll you do with the little one?")
+    );
+    
+    _popup.create_button(ANCHOR.wrap_for_local("Drop them :("), function() {
+        show_debug_message("[ui_reference] YOU ARE EVIL");
+    });
+
+    _popup.create_button(ANCHOR.wrap_for_local("Release them :)"), function() {
+        show_debug_message("[ui_reference] They went home!!!");
+    });
+    
+    _popup.spawn();
+}
