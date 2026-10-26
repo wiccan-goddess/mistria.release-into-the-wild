@@ -35,7 +35,7 @@
 // menu setup
 // scope ari or inventory so .self works
 // figure out checks
-// figure out what hooks are needed [maybe menu?], if any
+// figure out what hooks are needed [def menu || not sure what else yet], if any
 
 // pop up menu:
 function uiref_message_popup() {
@@ -51,6 +51,104 @@ function uiref_message_popup() {
     _popup.create_button(ANCHOR.wrap_for_local("Release them :)"), function() {
         show_debug_message("[ui_reference] They went home!!!");
     });
-    
+
     _popup.spawn();
 }
+
+// scoping the needed functions
+
+// checks
+
+    // Scripts/GameplaySystems/Player/Ari
+    function give_item
+        if should_drop
+
+    // Scripts/GameplaySystems/Data/Conditions/Conditions
+    function ConditionFactory
+        static FishIsValid
+        static BugIsValid
+
+
+
+
+// -----------------------------------------------------------
+// from toolbar-wrap
+// -----------------------------------------------------------
+
+// Runtime state initialization.
+function __release_into_the_wild_runtime() {
+    if (global[$ "__release_into_the_wild"] == undefined) {
+        global.__release_into_the_wild = { registered_hooks: undefined };
+    }
+    return global.__release_into_the_wild;
+}
+
+// Hook callback registration.
+function release_into_the_wild_register_callbacks() {
+    var _rt = __release_into_the_wild_runtime();
+
+    if (_rt.registered_hooks != undefined) {
+        return;
+    }
+
+    _rt.registered_hooks = true;
+
+    mmapi_on("ui.menu_opened", release_into_the_wild_menu_opened); // EVENT hook registration
+}
+
+// Hook callback.
+function release_into_the_wild_menu_opened(_ctx) {     
+    // from sopholopho code example should just check for the toolbar
+    var _menu = _ctx.menu;
+
+    if (_menu == undefined || _menu[$"type"] != Menu.Toolbar) {
+        return;
+    }
+
+    var orig_on_think = _menu.on_think;
+
+    var new_scope = {
+        menu: _menu,
+        orig_on_think: orig_on_think
+    };
+
+    with new_scope {
+        var new_on_think = function () {
+
+            // current values
+            var old_page = menu.page;
+            var old_slot = ARI.held_item_index mod 10;
+
+            // game values
+            orig_on_think();
+
+            // updated values
+            var new_page = menu.page;
+            var new_slot = ARI.held_item_index mod 10;
+
+            if (new_page != old_page){
+                if (new_slot == 0 && old_slot == 9){
+                    ARI.set_held_item_index(old_page * 10);
+                    menu.page = old_page;
+                    menu.update();
+                }
+                else if (new_slot == 9 && old_slot == 0){
+                    ARI.set_held_item_index((old_page * 10) + 9);
+                    menu.page = old_page;
+                    menu.update();
+                }
+            }
+
+        };
+
+        menu.on_think = new_on_think;
+    }
+
+
+    mmapi_log_info("release_into_the_wild", "mod loaded yay?");
+    mmapi_log_flush("release_into_the_wild"); // make this one-line proof visible immediately
+}
+
+// MMAPI mod declaration and hook registration.
+mmapi_mod_declare("release_into_the_wild", "1.0.0");
+release_into_the_wild_register_callbacks();
