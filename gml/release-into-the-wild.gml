@@ -74,12 +74,23 @@ function re_wild_register_callbacks() {
 // }
 
 //grab values from Item/enum ToolTypes
+// function re_wild_tool_check() {
+//     if (ToolType == FishingRod || ToolType == Net) {
+//         var tool_check = true
+//     } else {
+//         var tool_check = false
+//     }
+// }
+
 function re_wild_tool_check() {
-    if (ToolType == FishingRod || ToolType == Net) {
-        var tool_check = true
-    } else {
-        var tool_check = false
+    var item = ARI.held_item();
+    
+    if (item != undefined) {
+        if (item.prototype.tool_type == ToolType.Net || item.prototype.tool_type == ToolType.FishingRod) {
+            return true;
+        }
     }
+    return false;
 }
 
 //-----------------------------------------------------------------------------------------------------------
@@ -154,7 +165,6 @@ function re_wild_popup() {
 
 // Hook callback.
 function re_wild_hook() {
-
     var orig_give_item = ARI.give_item;
 
     var new_scope = {
@@ -165,26 +175,29 @@ function re_wild_hook() {
         var new_give_item = function (_item, _count, _show_toast = true, _should_drop = true) {
             
             // before
-            trace("-- before give", tool_check);
+            var holding_tool = re_wild_tool_check()
 
-            if (tool_check == true) {
+            trace("-- before give", holding_tool);
+
+            if (holding_tool == true) {
+                trace("TOOL");
                 if (re_wild_is_ari_inventory_full()) {
                     if (_should_drop == true) {
                         re_wild_popup();
-                                // return; is banned lmao, thanos snaps everything i try to pick up
+                        return; // is banned lmao, thanos snaps everything i try to pick up
                                 // not what I was expecting...
                                 // just wanted a pause!!!!
                     } 
                 }
             }else{
-                return;
+                trace("NO TOOL");
+
+                // game values
+                orig_give_item(_item, _count, _show_toast, _should_drop);
+
+                // after
+                trace("-- after give");
             };
-
-            // game values
-            orig_give_item(_item, _count, _show_toast, _should_drop);
-
-            // after
-            trace("-- after give");
         };
 
         ARI.give_item = new_give_item;
