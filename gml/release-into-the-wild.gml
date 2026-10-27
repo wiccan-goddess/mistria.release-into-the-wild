@@ -159,18 +159,18 @@ function re_wild_is_ari_inventory_full() {
 }
 
 // need to check if the inv has it already so it doesn't popup when it can be picked up
-function re_wild_ari_space_aval() {
+function re_wild_ari_space_aval(_item) {
     var can_fit = ARI.inventory.room_for_item(_item); //yeeted from ari
 
     trace(can_fit) //returned 997
 
     if (can_fit > 0){
-        var space = true
+        _space = true
     }else{
-        var space = false
+        _space = false
     }
 
-    trace(space)
+    trace(_space)
 }
 
 
@@ -224,7 +224,7 @@ function re_wild_hook() {
             
             // before
             var holding_tool = re_wild_tool_coord_check()
-            re_wild_ari_space_aval()
+            re_wild_ari_space_aval(_item)
             
             trace(holding_tool)
             trace("-- trying coord teset");// obj.ari not ARI thx thunder
@@ -235,7 +235,7 @@ function re_wild_hook() {
 
             if (holding_tool == true) {
                 trace("TOOL");
-                if (re_wild_is_ari_inventory_full() && space == false) {
+                if (re_wild_is_ari_inventory_full() && _space == false) {
                     if (_should_drop == true) {
                         _dropped = _item // hopefully this passes it over
 
