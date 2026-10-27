@@ -123,8 +123,7 @@ function re_wild_sound_set() {
 function re_wild_magic_trick(_dropped) {
     trace(_dropped)
     trace("pre-fire")
-    trace(obj_item)
-    drop_item_to_ground(_xx, _yy, 0, _dropped);
+    drop_item(_dropped, _xx, _yy);
     trace("shou;d've grebbaed succussfuly")
 }
 
