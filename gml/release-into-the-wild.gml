@@ -76,7 +76,7 @@ function re_wild_register_callbacks() {
 // }
 
 //grab values from Item/enum ToolTypes
-// function re_wild_tool_check() {
+// function re_wild_tool_coord_check() {
 //     if (ToolType == FishingRod || ToolType == Net) {
 //         var tool_check = true
 //     } else {
@@ -84,16 +84,59 @@ function re_wild_register_callbacks() {
 //     }
 // }
 
-function re_wild_tool_check() {
+function re_wild_tool_coord_check() {
     var item = ARI.held_item();
     
     if (item != undefined) {
         if (item.prototype.tool_type == ToolType.Net || item.prototype.tool_type == ToolType.FishingRod) {
+            if (item.prototype.tool_type == ToolType.Net) {
+                show_debug_message("NETNETNETNETNETNETNETNETNETNETNET");
+                _sound = "net";
+            }
+            if (item.prototype.tool_type == ToolType.FishingRod) {
+                show_debug_message("RODRODRODRODRODRODRODRODRODRODROD");
+                _sound = "rod";
+            }
+
+            trace("-- trying coord teset");// obj.ari not ARI thx thunder
+            trace(obj_ari.x);
+            trace(obj_ari.y);
+
+            _xx = obj_ari.x;
+            _yy = obj_ari.y;
+
             return true;
         }
     }
     return false;
 }
+
+function re_wild_sound_set() {
+    if (_sound == "net") {
+        TANGO.play("SoundEffects/Animals/BugSpawn", AUDIO_LISTENER_X , AUDIO_LISTENER_Y);
+    }
+    if (_sound == "rod") {
+        TANGO.play("SoundEffects/Animals/SingleFishRun", AUDIO_LISTENER_X , AUDIO_LISTENER_Y);
+    }
+}
+
+function re_wild_magic_trick(_dropped) {
+    trace(_dropped)
+    trace("pre-fire")
+    obj_item = _dropped
+    trace(obj_item)
+    drop_item_to_ground(_xx, _yy, 0, obj_item);
+    trace("shou;d've grebbaed succussfuly")
+}
+
+// function drop_item_to_ground(xx, yy, z_offset) {
+//     var inst = instance_create_layer(xx, yy, "Instances", obj_item);
+//     inst.move_draw_z = true;
+//     inst.draw_z_offset = z_offset;
+//     inst.ignore_collision = true;
+
+//     return inst;
+// }
 
 //-----------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------
@@ -113,31 +156,15 @@ function re_wild_is_ari_inventory_full() {
 //     return instance_exists(inst) ? inst : undefined;
 // }
 
-// // or
-
-// function drop_item(value, xx, yy, z_offset=0) {
-//     var array = drop_item_input_cleanup(value);
-//     if array == undefined {
-//         return;
-//     }
-
-//     for (var i = 0; i < array_length(array); i++) {
-//         var item = array[i];
-//         item = is_struct(item) ? item : new LiveItem(item);
-//         drop_item_default_setup(
-//             instance_create_layer(xx, yy, "Instances", obj_item),
-//             List(item),
-//             drop_item_random_dir_distance(),
-//             z_offset
-//         );
-//     }
 //     TANGO.play("SoundEffects/Inventory/ItemDrop", xx, yy);
 // }
 
 // need to check if the inv has it already so it doesn't popup when it can be picked up
 
 // pop up menu grabbed from UI Guide:
-function re_wild_popup(_dropped) {
+function re_wild_popup(_dropped, _xx, _yy, _sound) {  // gives LiveItem (blehbleh)
+                                    // remove 'LiveItem (' + ')'
+                                    // either that or see if spawn can push it
 
     var _popup = popup_creator(
         ANCHOR.wrap_for_local("Your inventory is full... "),
@@ -146,12 +173,15 @@ function re_wild_popup(_dropped) {
     
     _popup.create_button(ANCHOR.wrap_for_local("Drop"), function() {
         show_debug_message("[ui_reference] Dropped");
+        trace(_dropped);
+        trace(_xx);
+        trace(_yy);
+        re_wild_magic_trick(_dropped, _xx, _yy);
     });
 
     _popup.create_button(ANCHOR.wrap_for_local("Release"), function() {
         show_debug_message("[ui_reference] Released");
-        //KILL IT WITH FIRE
-        instance_destroy_safe(_dropped);// truly hope this works
+        re_wild_sound_set();
     });
 
     _popup.spawn();
@@ -169,6 +199,8 @@ function re_wild_popup(_dropped) {
 // Hook callback.
 function re_wild_hook() {
     var orig_give_item = ARI.give_item;
+    
+    
 
     var new_scope = {
         orig_give_item: orig_give_item
@@ -178,7 +210,12 @@ function re_wild_hook() {
         var new_give_item = function (_item, _count, _show_toast = true, _should_drop = true) {
             
             // before
-            var holding_tool = re_wild_tool_check()
+            var holding_tool = re_wild_tool_coord_check()
+            
+            trace(holding_tool)
+            trace("-- trying coord teset");// obj.ari not ARI thx thunder
+            trace(_xx);
+            trace(_yy);
 
             trace("-- before give");
 
@@ -187,8 +224,10 @@ function re_wild_hook() {
                 if (re_wild_is_ari_inventory_full()) {
                     if (_should_drop == true) {
                         _dropped = _item // hopefully this passes it over
+
+                        trace(_dropped);
                         re_wild_popup(_dropped);
-                        //return; // is banned lmao, thanos snaps everything i try to pick up
+                        return; // is banned lmao, thanos snaps everything i try to pick up
                                 // not what I was expecting...
                                 // just wanted a pause!!!!
                     } 
