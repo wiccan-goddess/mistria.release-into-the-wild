@@ -120,9 +120,12 @@ function re_wild_sound_set() {
     }
 }
 
-function re_wild_magic_trick() {
+function re_wild_magic_trick(_dropped) {
+    trace(_dropped)
     trace("pre-fire")
-    drop_item_to_ground(_xx, _yy, 0);
+    obj_item = _dropped
+    trace(obj_item)
+    drop_item_to_ground(_xx, _yy, 0, obj_item);
     trace("shou;d've grebbaed succussfuly")
 }
 
@@ -174,7 +177,6 @@ function re_wild_popup(_dropped, _xx, _yy, _sound) {  // gives LiveItem (blehble
         trace(_xx);
         trace(_yy);
         re_wild_magic_trick(_dropped, _xx, _yy);
-        trace("magic FN");
     });
 
     _popup.create_button(ANCHOR.wrap_for_local("Release"), function() {
