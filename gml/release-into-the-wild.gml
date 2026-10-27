@@ -182,6 +182,30 @@ function re_wild_not_live(_item) {
     }
 };
 
+// check if diving
+function re_wild_diving() {};
+
+// check all trigger vars
+function re_wild_trigger() {
+    var full = re_wild_is_ari_inventory_full();
+    var holding_tool = re_wild_tool_coord_check();
+    var diving = re_wild_diving();
+    re_wild_ari_space_aval(_item);
+    re_wild_not_live(_item);
+
+    if:
+        full == true
+        _space == false
+        living == true
+        if:
+            holding_tool == true || diving == true
+            return true;
+        else:
+            return false;
+    else:
+        return false;
+};
+
 // pop up menu grabbed from UI Guide:
 function re_wild_popup(_dropped, _xx, _yy, _sound) {  // gives LiveItem (blehbleh)
                                     // remove 'LiveItem (' + ')'
@@ -231,8 +255,8 @@ function re_wild_hook() {
         var new_give_item = function (_item, _count, _show_toast = true, _should_drop = true) {
             
             // before
-            var holding_tool = re_wild_tool_coord_check()
-            re_wild_ari_space_aval(_item)
+            var holding_tool = re_wild_tool_coord_check() //checks
+            re_wild_ari_space_aval(_item) //checks
             
             trace(holding_tool)
             trace("-- trying coord teset");// obj.ari not ARI thx thunder
@@ -243,7 +267,7 @@ function re_wild_hook() {
 
             if (holding_tool == true) {
                 trace("TOOL");
-                if (re_wild_is_ari_inventory_full() && _space == false) {
+                if (re_wild_is_ari_inventory_full() && _space == false) { //checks
                     if (_should_drop == true) {
                         _dropped = _item // hopefully this passes it over
 
