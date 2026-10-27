@@ -173,6 +173,14 @@ function re_wild_ari_space_aval(_item) {
     trace(_space)
 }
 
+function re_wild_not_live(_item) {
+    // if it's weeds or other things, chests included, then find and return it as false
+    var living = false
+
+    if !(item/chest){
+        var living = true
+    }
+};
 
 // pop up menu grabbed from UI Guide:
 function re_wild_popup(_dropped, _xx, _yy, _sound) {  // gives LiveItem (blehbleh)
