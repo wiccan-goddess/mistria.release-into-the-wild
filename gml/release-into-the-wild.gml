@@ -123,19 +123,28 @@ function re_wild_sound_set() {
 function re_wild_magic_trick(_dropped) {
     trace(_dropped)
     trace("pre-fire")
-    obj_item = _dropped
     trace(obj_item)
-    drop_item_to_ground(_xx, _yy, 0, obj_item);
+    drop_item_to_ground(_xx, _yy, 0, _dropped);
     trace("shou;d've grebbaed succussfuly")
 }
 
-// function drop_item_to_ground(xx, yy, z_offset) {
-//     var inst = instance_create_layer(xx, yy, "Instances", obj_item);
-//     inst.move_draw_z = true;
-//     inst.draw_z_offset = z_offset;
-//     inst.ignore_collision = true;
+// function drop_item(value, xx, yy, z_offset=0) {
+//     var array = drop_item_input_cleanup(value);
+//     if array == undefined {
+//         return;
+//     }
 
-//     return inst;
+//     for (var i = 0; i < array_length(array); i++) {
+//         var item = array[i];
+//         item = is_struct(item) ? item : new LiveItem(item);
+//         drop_item_default_setup(
+//             instance_create_layer(xx, yy, "Instances", obj_item),
+//             List(item),
+//             drop_item_random_dir_distance(),
+//             z_offset
+//         );
+//     }
+//     TANGO.play("SoundEffects/Inventory/ItemDrop", xx, yy);
 // }
 
 //-----------------------------------------------------------------------------------------------------------
