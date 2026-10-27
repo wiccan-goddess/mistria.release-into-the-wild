@@ -158,16 +158,21 @@ function re_wild_is_ari_inventory_full() {
     });
 }
 
-// function spawn_bug_object(xx, yy, bug, spawn_canopy=true) {
-//     var inst = instance_create_depth(xx, yy, 0, obj_bug);
-//     inst.setup(bug, spawn_canopy);
-//     return instance_exists(inst) ? inst : undefined;
-// }
-
-//     TANGO.play("SoundEffects/Inventory/ItemDrop", xx, yy);
-// }
-
 // need to check if the inv has it already so it doesn't popup when it can be picked up
+function re_wild_ari_space_aval() {
+    var can_fit = ARI.inventory.room_for_item(_item); //yeeted from ari
+
+    trace(can_fit) //returned 997
+
+    if (can_fit > 0){
+        var space = true
+    }else{
+        var space = false
+    }
+
+    trace(space)
+}
+
 
 // pop up menu grabbed from UI Guide:
 function re_wild_popup(_dropped, _xx, _yy, _sound) {  // gives LiveItem (blehbleh)
@@ -219,6 +224,7 @@ function re_wild_hook() {
             
             // before
             var holding_tool = re_wild_tool_coord_check()
+            re_wild_ari_space_aval()
             
             trace(holding_tool)
             trace("-- trying coord teset");// obj.ari not ARI thx thunder
@@ -229,7 +235,7 @@ function re_wild_hook() {
 
             if (holding_tool == true) {
                 trace("TOOL");
-                if (re_wild_is_ari_inventory_full()) {
+                if (re_wild_is_ari_inventory_full() && space == false) {
                     if (_should_drop == true) {
                         _dropped = _item // hopefully this passes it over
 
