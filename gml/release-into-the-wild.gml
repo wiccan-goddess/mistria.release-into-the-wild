@@ -120,7 +120,7 @@ function re_wild_sound_set() {
     }
 }
 
-function re_wild_magic_trick(_dropped) {
+function re_wild_magic_trick(_dropped) { // YESSSSSSSSSSS
     trace(_dropped)
     trace("pre-fire")
     drop_item(_dropped, _xx, _yy);
