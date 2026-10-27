@@ -84,7 +84,7 @@ function re_wild_register_callbacks() {
 //     }
 // }
 
-function re_wild_tool_check() {
+function re_wild_tool__coord_check() {
     var item = ARI.held_item();
     
     if (item != undefined) {
@@ -97,6 +97,12 @@ function re_wild_tool_check() {
                 show_debug_message("RODRODRODRODRODRODRODRODRODRODROD");
                 _sound = "rod";
             }
+
+            trace("-- trying coord teset")// obj.ari not ARI thx thunder
+
+            _xx = obj_ari.x 
+            _yy = obj_ari.y
+
             return true;
         }
     }
@@ -112,9 +118,19 @@ function re_wild_sound_set() {
     }
 }
 
-function re_wild_magic_trick(_dropped) {
-    drop_item(_dropped.item_id);
+function re_wild_magic_trick(_xx, _yy) {
+    drop_item_to_ground(_xx, _yy, 0);
+    trace("shou;d've grebbaed succussfuly")
 }
+
+// function drop_item_to_ground(xx, yy, z_offset) {
+//     var inst = instance_create_layer(xx, yy, "Instances", obj_item);
+//     inst.move_draw_z = true;
+//     inst.draw_z_offset = z_offset;
+//     inst.ignore_collision = true;
+
+//     return inst;
+// }
 
 //-----------------------------------------------------------------------------------------------------------
 //-----------------------------------------------------------------------------------------------------------
@@ -140,7 +156,7 @@ function re_wild_is_ari_inventory_full() {
 // need to check if the inv has it already so it doesn't popup when it can be picked up
 
 // pop up menu grabbed from UI Guide:
-function re_wild_popup(_dropped, _sound) {  // gives LiveItem (blehbleh)
+function re_wild_popup(_dropped, _xx, _yy, _sound) {  // gives LiveItem (blehbleh)
                                     // remove 'LiveItem (' + ')'
                                     // either that or see if spawn can push it
 
@@ -151,7 +167,7 @@ function re_wild_popup(_dropped, _sound) {  // gives LiveItem (blehbleh)
     
     _popup.create_button(ANCHOR.wrap_for_local("Drop"), function() {
         show_debug_message("[ui_reference] Dropped");
-        //re_wild_magic_trick(_dropped);
+        re_wild_magic_trick(_dropped, _xx, _yy);
     });
 
     _popup.create_button(ANCHOR.wrap_for_local("Release"), function() {
@@ -174,6 +190,8 @@ function re_wild_popup(_dropped, _sound) {  // gives LiveItem (blehbleh)
 // Hook callback.
 function re_wild_hook() {
     var orig_give_item = ARI.give_item;
+    
+    
 
     var new_scope = {
         orig_give_item: orig_give_item
@@ -194,7 +212,7 @@ function re_wild_hook() {
                         _dropped = _item // hopefully this passes it over
 
                         trace(_dropped);
-                        re_wild_popup(_dropped);
+                        re_wild_popup(_dropped, _xx, _yy);
                         return; // is banned lmao, thanos snaps everything i try to pick up
                                 // not what I was expecting...
                                 // just wanted a pause!!!!
