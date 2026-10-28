@@ -173,15 +173,47 @@ function re_wild_ari_space_aval(_item) {
 // look for rarity: junk and artifact_fishing
 // and is_chest == true
 
+// var testw = _item.prototype.tags // works and gives          List[bugs]
+                                                             // List[fishable, fishy]
+                                                             // List[fishable, fishy, legendary_fish]
+                                                             // List[dive, river, fishy]
+                                                             // List[dive, ocean, fishy, fishable]
+                                                             // List[dive, pond, junk, fishable]
+                                                             // List[dive, pond, fishy, fishable]
+                                                             // List[dive, river, fishy, fishable]
 
-// function re_wild_not_live(_item) {
-//     // if it's weeds or other things, chests included, then find and return it as false
-//     if (rarity == junk) || (rarity == artifact_fishing) || (is_chest == true) {
-//         var living = false
-//     } else {
-//         var living = true
-//     }
-// };
+                                                             // bugs for bugs
+                                                             // fishy for all fish
+                                                             // junk
+                                                             // material
+            // trace(testw)
+
+// Umm, but essentially if you want to parse the list, the best way is to use var list_count = List.count(),
+// and then a for loop where i  < list_count, to access each element in the list using List.get(i).
+
+function re_wild_not_live(_item) {
+    var taggy = _item.prototype.tags
+    trace(taggy);
+
+    var list_count = taggy.count() // <- i think this is what thunder meant? like the inv check?
+
+    // for (i < list_count) {
+    //     List.get(i)
+    // }
+
+    // actual for loop
+    for (var i = 0; i < list_count; i++) {
+        var list = taggy.get(i)
+
+        trace(list)
+    }
+    
+    // if (taggy == asd) {
+    //     return true;
+    // } else {
+    //     return false;
+    // }
+};
 
 // check all trigger vars
 function re_wild_trigger(_item) {
@@ -189,7 +221,7 @@ function re_wild_trigger(_item) {
     var water = GRID.node_terrain_kind[GRID.node_index_for_room_position(obj_ari.x, obj_ari.y)] == TerrainKind.Water; // thunder
     var holding_tool = re_wild_tool_coord_check(water);
     re_wild_ari_space_aval(_item);
-    // re_wild_not_live(_item);
+    var living = re_wild_not_live(_item);
 
     trace("starting checks")
 
@@ -197,7 +229,7 @@ function re_wild_trigger(_item) {
     trace(full);
     trace(holding_tool);
     trace(_space);
-    // trace(living);
+    trace(living);
 
     trace("ending checks")
 
@@ -270,7 +302,7 @@ function re_wild_hook() {
             // trace(_yy);
             // var test = _item.prototype.rarity; //thunder as well <- crashes
             // var test = _item.fiddle_data // trying to get from item gml? <- crashes
-            var test = _item.prototype // gives all dis 
+            // var test = _item.prototype // gives all dis 
                                        // assets/gml/scripts/eepy_kitty_release_into_the_wild/release-into-the-wild.gml:275 -- 
                                        // { edible: false, value: { bin: 10, store: 20, renown: undefined }, tags: "List[bugs]", 
                                        // max_stamina_modifier: 0, soulbind: undefined, object: undefined, range: 1, catch_size: 0,
@@ -293,10 +325,16 @@ function re_wild_hook() {
                                        // tags: fishy
                                        // tags: bugs
                                        // newts!
-            var testw = _item.prototype.tags // works and gives List[bugs]
-                                                             // List[fishable, fishy]
-                                                             // List[]
-            trace(testw)
+            // var testw = _item.prototype.tags // works and gives List[bugs]
+            //                                                  // List[fishable, fishy]
+            //                                                  // List[fishable, fishy, legendary_fish]
+            //                                                  // List[dive, river, fishy]
+            //                                                  // List[dive, ocean, fishy, fishable]
+            //                                                  // List[dive, pond, junk, fishable]
+            //                                                  // List[dive, pond, fishy, fishable]
+            //                                                  // List[dive, river, fishy, fishable]
+            //                                                  // List[dive, river, fishy]
+            // trace(testw)
 
             re_wild_trigger(_item) // <- this checks all eventually
 
