@@ -168,12 +168,11 @@ function re_wild_trigger(_item) {
 // pop up menu grabbed from UI Guide:
 function re_wild_popup(_dropped, _sound) {  // gives LiveItem (blehbleh)
 
-    trace(_name)
+    trace(_name) // returns Walleye
 
     var _popup = popup_creator(
         ANCHOR.wrap_for_local("Your inventory is full... "),
         ANCHOR.wrap_for_local("What'll you do with the little one?"),
-        ANCHOR.wrap_for_local(_name)
     );
     
     _popup.create_button(ANCHOR.wrap_for_local("Drop"), function() {
@@ -184,7 +183,7 @@ function re_wild_popup(_dropped, _sound) {  // gives LiveItem (blehbleh)
         re_wild_sound_set();
     });
 
-    _popup.spawn(_name);
+    _popup.spawn();
 }
 
 // Hook callback.
