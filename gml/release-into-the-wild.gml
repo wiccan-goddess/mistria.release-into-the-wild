@@ -124,7 +124,7 @@ function re_wild_trigger(_item) {
     var water = GRID.node_terrain_kind[GRID.node_index_for_room_position(obj_ari.x, obj_ari.y)] == TerrainKind.Water; // thunder
     var holding_tool = re_wild_tool_coord_check(water);
     re_wild_ari_space_aval(_item);
-    var _name = _item.get_display_name() // emmea and spectra
+    _name = _item.get_display_name() // emmea and spectra
                                         // just found it in Live_Item lmao
 
     trace("starting checks")
@@ -166,15 +166,16 @@ function re_wild_trigger(_item) {
 };
 
 // pop up menu grabbed from UI Guide:
-function re_wild_popup(_item, _sound) {  // gives LiveItem (blehbleh)
+function re_wild_popup(_dropped, _sound) {  // gives LiveItem (blehbleh)
 
     var _popup = popup_creator(
         ANCHOR.wrap_for_local("Your inventory is full... "),
-        ANCHOR.wrap_for_local("What'll you do with the little one?")
+        ANCHOR.wrap_for_local("What'll you do with the little one?"),
+        ANCHOR.wrap_for_local(_name)
     );
     
     _popup.create_button(ANCHOR.wrap_for_local("Drop"), function() {
-        re_wild_magic_trick(_item);
+        re_wild_magic_trick(_dropped);
     });
 
     _popup.create_button(ANCHOR.wrap_for_local("Release"), function() {
@@ -197,8 +198,13 @@ function re_wild_hook() {
             
             // before
             if (re_wild_trigger(_item)) { //checks
+                
+                trace(_name)
+                
                 if (_should_drop == true) {
-                    re_wild_popup(_item);
+                    _dropped = _item // hopefully this passes it over
+
+                    re_wild_popup(_dropped);
                     return; // thanos snaps everything i try to pick up
                 } 
             }
