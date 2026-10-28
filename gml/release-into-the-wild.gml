@@ -26,24 +26,21 @@ function re_wild_register_callbacks() {
     mmapi_on("save.game_loaded", re_wild_hook);
 }
 
+// --------------------------------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------------------------------
+
 function re_wild_tool_coord_check(water) {
     var item = ARI.held_item();
     
     if (item != undefined) {
         if (item.prototype.tool_type == ToolType.Net || item.prototype.tool_type == ToolType.FishingRod) {
             if (item.prototype.tool_type == ToolType.Net) {
-                show_debug_message("NETNETNETNETNETNETNETNETNETNETNET");
                 _sound = "net";
             }
             if (item.prototype.tool_type == ToolType.FishingRod || water == true) {
-                show_debug_message("RODRODRODRODRODRODRODRODRODRODROD");
                 _sound = "rod";
             }
-
-            trace("-- trying coord teset");// obj.ari not ARI thx thunder
-            trace(obj_ari.x);
-            trace(obj_ari.y);
-
             return true;
         }
     }
@@ -127,6 +124,7 @@ function re_wild_trigger(_item) {
     var living = re_wild_not_live(_item);
 
     trace("starting checks")
+    trace("---------------")
 
     trace(water);
     trace(full);
@@ -134,11 +132,14 @@ function re_wild_trigger(_item) {
     trace(_space);
     trace(living);
 
-    trace("ending checks")
+    trace("coords & _sound")
 
     trace(obj_ari.x);
     trace(obj_ari.y);
     trace(_sound);
+
+    trace("---------------")
+    trace("ending checks")
 
     if (full == true) && (_space == false) { // call living last prevents the crash
         if (holding_tool == true) || (water == true) {
@@ -164,14 +165,12 @@ function re_wild_popup(_dropped, _sound) {  // gives LiveItem (blehbleh)
     );
     
     _popup.create_button(ANCHOR.wrap_for_local("Drop"), function() {
-        show_debug_message("[ui_reference] Dropped");
         trace(_dropped);
 
         re_wild_magic_trick(_dropped);
     });
 
     _popup.create_button(ANCHOR.wrap_for_local("Release"), function() {
-        show_debug_message("[ui_reference] Released");
         re_wild_sound_set();
     });
 
@@ -190,8 +189,6 @@ function re_wild_hook() {
         var new_give_item = function (_item, _count, _show_toast = true, _should_drop = true) {
             
             // before
-            trace("-- before give");
-
             if (re_wild_trigger(_item)) { //checks
                 if (_should_drop == true) {
                     _dropped = _item // hopefully this passes it over
@@ -206,7 +203,6 @@ function re_wild_hook() {
             orig_give_item(_item, _count, _show_toast, _should_drop);
 
             // after
-            trace("-- after give");
         };
 
         ARI.give_item = new_give_item;
@@ -217,7 +213,10 @@ function re_wild_hook() {
     mmapi_log_flush("release_into_the_wild"); // make this one-line proof visible immediately
 }
 
-//-------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------------------------------
+// --------------------------------------------------------------------------------------------------------------------------------------------
+
 // MMAPI mod declaration and hook registration.
 mmapi_mod_declare("release_into_the_wild", "1.0.0");
 re_wild_register_callbacks();
