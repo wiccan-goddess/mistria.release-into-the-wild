@@ -170,6 +170,12 @@ function re_wild_popup(_dropped, _sound) {  // gives LiveItem (blehbleh)
 
     trace(_name) // returns Walleye
 
+    // change the popup to something like:
+    // you caught a Walleye!
+    // ...but your invintory is full. Do you want to let the little one go back home?
+    // yes - release
+    // no - drop
+
     var _popup = popup_creator(
         ANCHOR.wrap_for_local("Your inventory is full... "),
         ANCHOR.wrap_for_local("What'll you do with the little one?"),
