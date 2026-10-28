@@ -241,5 +241,5 @@ function re_wild_hook() {
 // --------------------------------------------------------------------------------------------------------------------------------------------
 
 // MMAPI mod declaration and hook registration.
-mmapi_mod_declare("release_into_the_wild", "2.0.0");
+mmapi_mod_declare("release_into_the_wild", "2.1.0");
 re_wild_register_callbacks();
