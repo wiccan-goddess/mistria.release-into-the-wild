@@ -195,9 +195,9 @@ function re_wild_ari_space_aval(_item) {
 
 // check all trigger vars
 function re_wild_trigger(_item) {
-    var water = GRID.node_terrain_kind[GRID.node_index_for_room_position(_xx, _yy)] == TerrainKind.Water; // thunder
     var full = re_wild_is_ari_inventory_full();
     var holding_tool = re_wild_tool_coord_check();
+    var water = GRID.node_terrain_kind[GRID.node_index_for_room_position(obj_ari.x, obj_ari.y)] == TerrainKind.Water; // thunder
     re_wild_ari_space_aval(_item);
     // re_wild_not_live(_item);
 
@@ -210,6 +210,10 @@ function re_wild_trigger(_item) {
     // trace(living);
 
     trace("ending checks")
+
+    trace(_xx);
+    trace(_yy);
+    trace(_sound);
 
     if (full == true) && (_space == false) { // && (living == true);
         if (holding_tool == true) || (water == true) {
@@ -269,29 +273,26 @@ function re_wild_hook() {
         var new_give_item = function (_item, _count, _show_toast = true, _should_drop = true) {
             
             // before
-            re_wild_trigger(_item) // <- this checks all eventually
-            
-            trace(holding_tool)
-            trace("-- trying coord teset");// obj.ari not ARI thx thunder
-            trace(_xx);
-            trace(_yy);
-
             trace("-- before give");
 
-            if (holding_tool == true) {
-                trace("TOOL");
-                if (re_wild_trigger(_item)) { //checks
-                    if (_should_drop == true) {
-                        _dropped = _item // hopefully this passes it over
+            // trace(holding_tool)
+            // trace("-- trying coord teset");// obj.ari not ARI thx thunder
+            // trace(_xx);
+            // trace(_yy);
 
-                        trace(_dropped);
-                        re_wild_popup(_dropped);
-                        return; // is banned lmao, thanos snaps everything i try to pick up
-                                // not what I was expecting...
-                                // just wanted a pause!!!!
-                    } 
-                }
-            };
+            re_wild_trigger(_item) // <- this checks all eventually
+
+            if (re_wild_trigger(_item)) { //checks
+                if (_should_drop == true) {
+                    _dropped = _item // hopefully this passes it over
+
+                    trace(_dropped);
+                    re_wild_popup(_dropped);
+                    return; // is banned lmao, thanos snaps everything i try to pick up
+                            // not what I was expecting...
+                            // just wanted a pause!!!!
+                } 
+            }
 
             // game values
             orig_give_item(_item, _count, _show_toast, _should_drop);
