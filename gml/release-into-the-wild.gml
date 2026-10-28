@@ -118,22 +118,18 @@ function re_wild_not_live(_item) {
     }
 };
 
-function re_wild_name_me(_item) {
-    var name = _item.prototype.name // could use this for names as well?
-}
-
 // check all trigger vars
 function re_wild_trigger(_item) {
     var full = re_wild_is_ari_inventory_full();
     var water = GRID.node_terrain_kind[GRID.node_index_for_room_position(obj_ari.x, obj_ari.y)] == TerrainKind.Water; // thunder
     var holding_tool = re_wild_tool_coord_check(water);
     re_wild_ari_space_aval(_item);
-    re_wild_name_me(_item);
+    var name = _item.get_display_name() // emmea and spectra
+                                        // just found it in Live_Item lmao
 
     trace("starting checks")
     trace("---------------")
 
-    trace(name)
     trace(water);
     trace(full);
     trace(holding_tool);
