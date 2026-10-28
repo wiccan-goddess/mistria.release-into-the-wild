@@ -169,6 +169,8 @@ function re_wild_trigger(_item) {
 function re_wild_popup(_dropped, _sound) {  // gives LiveItem (blehbleh)
 
     trace(_name) // returns Walleye
+                 // is this a string? <- prompted by thunder
+    trace("Name " + _name + " is string") // it worked
 
     // change the popup to something like:
     // you caught a Walleye!
@@ -177,15 +179,15 @@ function re_wild_popup(_dropped, _sound) {  // gives LiveItem (blehbleh)
     // no - drop
 
     var _popup = popup_creator(
-        ANCHOR.wrap_for_local("Your inventory is full... "),
-        ANCHOR.wrap_for_local("What'll you do with the little one?"),
+        ANCHOR.wrap_for_local("You caught a " + _name + "!"),//Your inventory is full... "),
+        ANCHOR.wrap_for_local("...but your invintory is full. Do you want to let the little one go back home?"),
     );
     
-    _popup.create_button(ANCHOR.wrap_for_local("Drop"), function() {
+    _popup.create_button(ANCHOR.wrap_for_local("No"), function() {
         re_wild_magic_trick(_dropped);
     });
 
-    _popup.create_button(ANCHOR.wrap_for_local("Release"), function() {
+    _popup.create_button(ANCHOR.wrap_for_local("Yes"), function() {
         re_wild_sound_set();
     });
 
