@@ -99,7 +99,7 @@ function re_wild_ari_space_aval(_item) {
 // fishy for all fish
 
 function re_wild_not_live(_item) {
-    var taggy = _item.prototype.tags
+    var taggy = _item.prototype.tags // could use this for names as well?
 
     if (taggy != undefined) {
         trace(taggy);
@@ -118,10 +118,9 @@ function re_wild_not_live(_item) {
     }
 };
 
-// okay so for the quest crash i'll try calling the living fn after base checks
-// and for the item spawn error i'll do something with space fn
-
-// looking back at enneas inv full fn on the discord they said to add undefined checks so i'll do that first because oops
+function re_wild_name_me(_item) {
+    var name = _item.prototype.name // could use this for names as well?
+}
 
 // check all trigger vars
 function re_wild_trigger(_item) {
@@ -129,10 +128,12 @@ function re_wild_trigger(_item) {
     var water = GRID.node_terrain_kind[GRID.node_index_for_room_position(obj_ari.x, obj_ari.y)] == TerrainKind.Water; // thunder
     var holding_tool = re_wild_tool_coord_check(water);
     re_wild_ari_space_aval(_item);
+    re_wild_name_me(_item);
 
     trace("starting checks")
     trace("---------------")
 
+    trace(name)
     trace(water);
     trace(full);
     trace(holding_tool);
