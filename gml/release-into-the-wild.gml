@@ -43,6 +43,7 @@ function re_wild_tool_coord_check(water) {
         return true;
     }
 
+    _sound = "none";
     return false;
 }
 
