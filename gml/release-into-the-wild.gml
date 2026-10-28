@@ -33,17 +33,16 @@ function re_wild_register_callbacks() {
 function re_wild_tool_coord_check(water) {
     var item = ARI.held_item();
     
-    if (item != undefined) {
-        if (item.prototype.tool_type == ToolType.Net || item.prototype.tool_type == ToolType.FishingRod) {
-            if (item.prototype.tool_type == ToolType.Net) {
-                _sound = "net";
-            }
-            if (item.prototype.tool_type == ToolType.FishingRod || water == true) {
-                _sound = "rod";
-            }
-            return true;
-        }
+    if (item != undefined && item.prototype.tool_type == ToolType.Net) {
+        _sound = "net";
+        return true;
     }
+
+    if (item != undefined && (item.prototype.tool_type == ToolType.FishingRod || water == true)) {
+        _sound = "rod";
+        return true;
+    }
+
     return false;
 }
 
