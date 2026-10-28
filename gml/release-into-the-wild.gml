@@ -196,6 +196,7 @@ function re_wild_not_live(_item) {
     trace(taggy);
 
     var list_count = taggy.count() // <- i think this is what thunder meant? like the inv check?
+    // var living = false
 
     // for (i < list_count) {
     //     List.get(i)
@@ -204,8 +205,14 @@ function re_wild_not_live(_item) {
     // actual for loop
     for (var i = 0; i < list_count; i++) {
         var list = taggy.get(i)
-
         trace(list)
+
+        if (list == "bugs" || list == "fishy") {
+            return true;           
+        } // else {
+        //     var living = false <- reset living lol
+        //     trace(living)
+        // }
     }
     
     // if (taggy == asd) {
@@ -237,7 +244,7 @@ function re_wild_trigger(_item) {
     trace(obj_ari.y);
     trace(_sound);
 
-    if (full == true) && (_space == false) { // && (living == true);
+    if (full == true) && (_space == false) && (living == true) {
         if (holding_tool == true) || (water == true) {
             return true;
         } else {
