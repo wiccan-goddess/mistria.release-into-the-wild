@@ -165,8 +165,6 @@ function re_wild_popup(_dropped, _sound) {  // gives LiveItem (blehbleh)
     );
     
     _popup.create_button(ANCHOR.wrap_for_local("Drop"), function() {
-        trace(_dropped);
-
         re_wild_magic_trick(_dropped);
     });
 
