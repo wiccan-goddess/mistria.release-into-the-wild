@@ -102,14 +102,14 @@ function re_wild_not_live(_item) {
     var taggy = _item.prototype.tags // could use this for names as well?
 
     if (taggy != undefined) {
-        // trace(taggy);
+        trace(taggy);
 
         var list_count = taggy.count() // thunder
 
         // actual for loop
         for (var i = 0; i < list_count; i++) {
             var list = taggy.get(i)
-            // trace(list)
+            trace(list)
 
             if (list == "bugs" || list == "fishy") {
                 return true;           
@@ -123,7 +123,7 @@ function re_wild_trace() {
     trace("---------------")
     trace("")
 
-    trace(_name)
+    //trace(_name)
     trace(water);
     trace(full);
     trace(holding_tool);
@@ -144,16 +144,17 @@ function re_wild_trace() {
 
 // check all trigger vars
 function re_wild_trigger(_item) {
-    var full = re_wild_is_ari_inventory_full();
-    var water = GRID.node_terrain_kind[GRID.node_index_for_room_position(obj_ari.x, obj_ari.y)] == TerrainKind.Water; // thunder
-    var holding_tool = re_wild_tool_coord_check(water);
+    full = re_wild_is_ari_inventory_full();
+    water = GRID.node_terrain_kind[GRID.node_index_for_room_position(obj_ari.x, obj_ari.y)] == TerrainKind.Water; // thunder
+    holding_tool = re_wild_tool_coord_check(water);
     re_wild_ari_space_aval(_item);
-    _name = _item.get_display_name() // emmea and spectra
 
-    // re_wild_trace()
-
+    //re_wild_trace()
+    
     if (full == true) && (_space == false) { // call living last prevents the crash
         if (holding_tool == true) || (water == true) {
+
+            _name = _item.get_display_name() // emmea and spectra
 
             if (re_wild_not_live(_item)) {
                 // trace("living")
