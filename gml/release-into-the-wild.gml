@@ -268,7 +268,33 @@ function re_wild_hook() {
             // trace("-- trying coord teset");// obj.ari not ARI thx thunder
             // trace(_xx);
             // trace(_yy);
-            trace(_item)
+            // var test = _item.prototype.rarity; //thunder as well <- crashes
+            // var test = _item.fiddle_data // trying to get from item gml? <- crashes
+            var test = _item.prototype // gives all dis 
+                                       // assets/gml/scripts/eepy_kitty_release_into_the_wild/release-into-the-wild.gml:275 -- 
+                                       // { edible: false, value: { bin: 10, store: 20, renown: undefined }, tags: "List[bugs]", 
+                                       // max_stamina_modifier: 0, soulbind: undefined, object: undefined, range: 1, catch_size: 0,
+                                       // wallpaper: undefined, flooring: undefined, sow_sprite: undefined, new_inventory_size: undefined,
+                                       // health_modifier: undefined, blueprint: undefined, door_mold: undefined,
+                                       // default_infusion: undefined, song: undefined, item_id: 276, plant_grass: undefined,
+                                       // crop_object: undefined, stamina_modifier: undefined, recipe: undefined,
+                                       // crafting_preview_sprite: undefined, icon_sprite: -906243771343976512, sapling: undefined,
+                                       // date_unlock: undefined, kitchen_tier_requirement: undefined, attract: undefined,
+                                       // essence_charge: undefined, description_key: "items/other/bugs/beach_hopper/description",
+                                       // recipe_key: "beach_hopper", size: undefined, cosmetic_to_unlock: undefined,
+                                       // mana_modifier: undefined, stars: undefined, pet_treat: undefined, damage: 0,
+                                       // tile_placement: undefined, bomb: undefined, use: undefined, crafting_level_requirement: undefined,
+                                       // stamina_cost: -1, defense: 0, hold_over_head: true, giftable: true, max_stack: 999, mini_sprite: undefined,
+                                       // set_unlock: undefined, pet_skin_unlock: undefined, max_health_modifier: 0,
+                                       // name_key: "items/other/bugs/beach_hopper/name", tool_type: undefined,
+                                       // icon_sprite_outline: -8585124786037942606, quality: 0, animal_feed: undefined,
+                                       // purchased_once_per_year: false }
+
+                                       // tags: fishy
+                                       // tags: bugs
+                                       // newts!
+            var testw = _item.prototype.tags
+            trace(testw)
 
             re_wild_trigger(_item) // <- this checks all eventually
 
