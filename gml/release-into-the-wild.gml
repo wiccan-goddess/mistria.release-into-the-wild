@@ -100,20 +100,28 @@ function re_wild_ari_space_aval(_item) {
 
 function re_wild_not_live(_item) {
     var taggy = _item.prototype.tags
-    trace(taggy);
 
-    var list_count = taggy.count() // thunder
+    if (taggy != undefined) {
+        trace(taggy);
 
-    // actual for loop
-    for (var i = 0; i < list_count; i++) {
-        var list = taggy.get(i)
-        trace(list)
+        var list_count = taggy.count() // thunder
 
-        if (list == "bugs" || list == "fishy") {
-            return true;           
-        } 
+        // actual for loop
+        for (var i = 0; i < list_count; i++) {
+            var list = taggy.get(i)
+            trace(list)
+
+            if (list == "bugs" || list == "fishy") {
+                return true;           
+            } 
+        }
     }
 };
+
+// okay so for the quest crash i'll try calling the living fn after base checks
+// and for the item spawn error i'll do something with space fn
+
+// looking back at enneas inv full fn on the discord they said to add undefined checks so i'll do that first because oops
 
 // check all trigger vars
 function re_wild_trigger(_item) {
