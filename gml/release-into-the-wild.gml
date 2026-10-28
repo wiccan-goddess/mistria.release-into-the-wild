@@ -293,7 +293,9 @@ function re_wild_hook() {
                                        // tags: fishy
                                        // tags: bugs
                                        // newts!
-            var testw = _item.prototype.tags
+            var testw = _item.prototype.tags // works and gives List[bugs]
+                                                             // List[fishable, fishy]
+                                                             // List[]
             trace(testw)
 
             re_wild_trigger(_item) // <- this checks all eventually
