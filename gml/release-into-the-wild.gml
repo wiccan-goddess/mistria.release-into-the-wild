@@ -98,9 +98,9 @@ function re_wild_tool_coord_check(water) {
                 _sound = "rod";
             }
 
-            trace("-- trying coord teset");// obj.ari not ARI thx thunder
-            trace(obj_ari.x);
-            trace(obj_ari.y);
+            // trace("-- trying coord teset");// obj.ari not ARI thx thunder
+            // trace(obj_ari.x);
+            // trace(obj_ari.y);
 
             return true;
         }
@@ -118,10 +118,10 @@ function re_wild_sound_set() {
 }
 
 function re_wild_magic_trick(_dropped) { // YESSSSSSSSSSS
-    trace(_dropped)
-    trace("pre-fire")
+    //trace(_dropped)
+    //trace("pre-fire")
     drop_item(_dropped, obj_ari.x, obj_ari.y);
-    trace("shou;d've grebbaed succussfuly")
+    //trace("shou;d've grebbaed succussfuly")
 }
 
 // function drop_item(value, xx, yy, z_offset=0) {
@@ -159,7 +159,7 @@ function re_wild_is_ari_inventory_full() {
 function re_wild_ari_space_aval(_item) {
     var can_fit = ARI.inventory.room_for_item(_item); //yeeted from ari
 
-    trace(can_fit) //returned 997
+    //trace(can_fit) //returned 997
 
     if (can_fit > 0){
         _space = true
@@ -167,7 +167,7 @@ function re_wild_ari_space_aval(_item) {
         _space = false
     }
 
-    trace(_space)
+    //trace(_space)
 }
 
 // look for rarity: junk and artifact_fishing
@@ -193,7 +193,7 @@ function re_wild_ari_space_aval(_item) {
 
 function re_wild_not_live(_item) {
     var taggy = _item.prototype.tags
-    trace(taggy);
+    //trace(taggy);
 
     var list_count = taggy.count() // <- i think this is what thunder meant? like the inv check?
     // var living = false
@@ -205,7 +205,7 @@ function re_wild_not_live(_item) {
     // actual for loop
     for (var i = 0; i < list_count; i++) {
         var list = taggy.get(i)
-        trace(list)
+        //trace(list)
 
         if (list == "bugs" || list == "fishy") {
             return true;           
@@ -230,19 +230,19 @@ function re_wild_trigger(_item) {
     re_wild_ari_space_aval(_item);
     var living = re_wild_not_live(_item);
 
-    trace("starting checks")
+    // trace("starting checks")
 
-    trace(water);
-    trace(full);
-    trace(holding_tool);
-    trace(_space);
-    trace(living);
+    // trace(water);
+    // trace(full);
+    // trace(holding_tool);
+    // trace(_space);
+    // trace(living);
 
-    trace("ending checks")
+    // trace("ending checks")
 
-    trace(obj_ari.x);
-    trace(obj_ari.y);
-    trace(_sound);
+    // trace(obj_ari.x);
+    // trace(obj_ari.y);
+    // trace(_sound);
 
     if (full == true) && (_space == false) && (living == true) {
         if (holding_tool == true) || (water == true) {
@@ -267,7 +267,7 @@ function re_wild_popup(_dropped, _sound) {  // gives LiveItem (blehbleh)
     
     _popup.create_button(ANCHOR.wrap_for_local("Drop"), function() {
         show_debug_message("[ui_reference] Dropped");
-        trace(_dropped);
+        //trace(_dropped);
 
         re_wild_magic_trick(_dropped);
     });
@@ -301,7 +301,7 @@ function re_wild_hook() {
         var new_give_item = function (_item, _count, _show_toast = true, _should_drop = true) {
             
             // before
-            trace("-- before give");
+            //trace("-- before give");
 
             // trace(holding_tool)
             // trace("-- trying coord teset");// obj.ari not ARI thx thunder
@@ -349,7 +349,7 @@ function re_wild_hook() {
                 if (_should_drop == true) {
                     _dropped = _item // hopefully this passes it over
 
-                    trace(_dropped);
+                    //trace(_dropped);
                     re_wild_popup(_dropped);
                     return; // is banned lmao, thanos snaps everything i try to pick up
                             // not what I was expecting...
@@ -361,7 +361,7 @@ function re_wild_hook() {
             orig_give_item(_item, _count, _show_toast, _should_drop);
 
             // after
-            trace("-- after give");
+            //trace("-- after give");
         };
 
         ARI.give_item = new_give_item;
