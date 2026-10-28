@@ -169,25 +169,18 @@ function re_wild_ari_space_aval(_item) {
 
     trace(_space)
 }
-// seaweed
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
-// 
+
+// look for rarity: junk and artifact_fishing
+// and is_chest == true
 
 
 // function re_wild_not_live(_item) {
 //     // if it's weeds or other things, chests included, then find and return it as false
-//     if !(item/chest){
+//     if (rarity == junk) || (rarity == artifact_fishing) || (is_chest == true) {
+//         var living = false
+//     } else {
 //         var living = true
 //     }
-
-//     var living = false
 // };
 
 // check all trigger vars
@@ -275,6 +268,7 @@ function re_wild_hook() {
             // trace("-- trying coord teset");// obj.ari not ARI thx thunder
             // trace(_xx);
             // trace(_yy);
+            trace(_item)
 
             re_wild_trigger(_item) // <- this checks all eventually
 
