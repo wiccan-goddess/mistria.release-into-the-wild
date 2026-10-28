@@ -172,39 +172,50 @@ function re_wild_ari_space_aval(_item) {
 
     trace(_space)
 }
+// seaweed
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
+// 
 
-function re_wild_not_live(_item) {
-    // if it's weeds or other things, chests included, then find and return it as false
-    var living = false
 
-    if !(item/chest){
-        var living = true
-    }
-};
+// function re_wild_not_live(_item) {
+//     // if it's weeds or other things, chests included, then find and return it as false
+//     if !(item/chest){
+//         var living = true
+//     }
 
-// check if diving
-function re_wild_diving() {};
+//     var living = false
+// };
 
-// check all trigger vars
-function re_wild_trigger() {
-    var full = re_wild_is_ari_inventory_full();
-    var holding_tool = re_wild_tool_coord_check();
-    var diving = re_wild_diving();
-    re_wild_ari_space_aval(_item);
-    re_wild_not_live(_item);
+// // check if diving
+// function re_wild_diving() {};
 
-    if:
-        full == true
-        _space == false
-        living == true
-        if:
-            holding_tool == true || diving == true
-            return true;
-        else:
-            return false;
-    else:
-        return false;
-};
+// // check all trigger vars
+// function re_wild_trigger() {
+//     var full = re_wild_is_ari_inventory_full();
+//     var holding_tool = re_wild_tool_coord_check();
+//     var diving = re_wild_diving();
+//     re_wild_ari_space_aval(_item);
+//     re_wild_not_live(_item);
+
+//     if:
+//         full == true
+//         _space == false
+//         living == true
+//         if:
+//             holding_tool == true || diving == true
+//             return true;
+//         else:
+//             return false;
+//     else:
+//         return false;
+// };
 
 // pop up menu grabbed from UI Guide:
 function re_wild_popup(_dropped, _xx, _yy, _sound) {  // gives LiveItem (blehbleh)
@@ -257,6 +268,7 @@ function re_wild_hook() {
             // before
             var holding_tool = re_wild_tool_coord_check() //checks
             re_wild_ari_space_aval(_item) //checks
+            // re_wild_trigger(_item) <- this checks all eventually
             
             trace(holding_tool)
             trace("-- trying coord teset");// obj.ari not ARI thx thunder
@@ -271,6 +283,7 @@ function re_wild_hook() {
                     if (_should_drop == true) {
                         _dropped = _item // hopefully this passes it over
 
+                        trace(AriFsm.in_water) // Ennea
                         trace(_dropped);
                         re_wild_popup(_dropped);
                         return; // is banned lmao, thanos snaps everything i try to pick up
