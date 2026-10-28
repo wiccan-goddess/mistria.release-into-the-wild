@@ -140,9 +140,13 @@ function re_wild_trigger(_item) {
     trace(obj_ari.y);
     trace(_sound);
 
-    if (full == true) && (_space == false) && (living == true) {
+    if (full == true) && (_space == false) { // call living last prevents the crash
         if (holding_tool == true) || (water == true) {
-            return true;
+
+            if (living == true) {
+                return true;
+            }
+            
         } else {
             return false;
         }
