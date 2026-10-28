@@ -57,10 +57,10 @@ function re_wild_sound_set() {
 }
 
 function re_wild_magic_trick(_dropped) { // YESSSSSSSSSSS
-    trace(_dropped)
-    trace("pre-fire")
+    // trace(_dropped)
+    // trace("pre-fire")
     drop_item(_dropped, obj_ari.x, obj_ari.y);
-    trace("shou;d've grebbaed succussfuly")
+    // trace("shou;d've grebbaed succussfuly")
 }
 
 // curtosy of Ennea
@@ -75,7 +75,7 @@ function re_wild_is_ari_inventory_full() {
 function re_wild_ari_space_aval(_item) {
     var can_fit = ARI.inventory.room_for_item(_item); //yeeted from ari
 
-    trace(can_fit) //returned 997
+    // trace(can_fit) //returned 997
 
     if (can_fit > 0){
         _space = true
@@ -83,7 +83,7 @@ function re_wild_ari_space_aval(_item) {
         _space = false
     }
 
-    trace(_space)
+    // trace(_space)
 }
 
 // List[bugs]
@@ -102,14 +102,14 @@ function re_wild_not_live(_item) {
     var taggy = _item.prototype.tags // could use this for names as well?
 
     if (taggy != undefined) {
-        trace(taggy);
+        // trace(taggy);
 
         var list_count = taggy.count() // thunder
 
         // actual for loop
         for (var i = 0; i < list_count; i++) {
             var list = taggy.get(i)
-            trace(list)
+            // trace(list)
 
             if (list == "bugs" || list == "fishy") {
                 return true;           
@@ -118,15 +118,7 @@ function re_wild_not_live(_item) {
     }
 };
 
-// check all trigger vars
-function re_wild_trigger(_item) {
-    var full = re_wild_is_ari_inventory_full();
-    var water = GRID.node_terrain_kind[GRID.node_index_for_room_position(obj_ari.x, obj_ari.y)] == TerrainKind.Water; // thunder
-    var holding_tool = re_wild_tool_coord_check(water);
-    re_wild_ari_space_aval(_item);
-    _name = _item.get_display_name() // emmea and spectra
-                                        // just found it in Live_Item lmao
-
+function re_wild_trace() {
     trace("starting checks")
     trace("---------------")
     trace("")
@@ -148,12 +140,23 @@ function re_wild_trigger(_item) {
     trace("")
     trace("---------------")
     trace("ending checks")
+}
+
+// check all trigger vars
+function re_wild_trigger(_item) {
+    var full = re_wild_is_ari_inventory_full();
+    var water = GRID.node_terrain_kind[GRID.node_index_for_room_position(obj_ari.x, obj_ari.y)] == TerrainKind.Water; // thunder
+    var holding_tool = re_wild_tool_coord_check(water);
+    re_wild_ari_space_aval(_item);
+    _name = _item.get_display_name() // emmea and spectra
+
+    // re_wild_trace()
 
     if (full == true) && (_space == false) { // call living last prevents the crash
         if (holding_tool == true) || (water == true) {
 
             if (re_wild_not_live(_item)) {
-                trace("living")
+                // trace("living")
                 return true;
             }
             
@@ -168,9 +171,9 @@ function re_wild_trigger(_item) {
 // pop up menu grabbed from UI Guide:
 function re_wild_popup(_dropped, _sound) {  // gives LiveItem (blehbleh)
 
-    trace(_name) // returns Walleye
+    // trace(_name) // returns Walleye
                  // is this a string? <- prompted by thunder
-    trace("Name " + _name + " is string") // it worked
+    // trace("Name " + _name + " is string") // it worked
 
     // change the popup to something like:
     // you caught a Walleye!
@@ -208,7 +211,7 @@ function re_wild_hook() {
             // before
             if (re_wild_trigger(_item)) { //checks
                 
-                trace(_name)
+                // trace(_name)
                 
                 if (_should_drop == true) {
                     _dropped = _item // hopefully this passes it over
@@ -237,5 +240,5 @@ function re_wild_hook() {
 // --------------------------------------------------------------------------------------------------------------------------------------------
 
 // MMAPI mod declaration and hook registration.
-mmapi_mod_declare("release_into_the_wild", "1.0.0");
+mmapi_mod_declare("release_into_the_wild", "2.0.0");
 re_wild_register_callbacks();
