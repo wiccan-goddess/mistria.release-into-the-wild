@@ -84,7 +84,7 @@ function re_wild_register_callbacks() {
 //     }
 // }
 
-function re_wild_tool_coord_check() {
+function re_wild_tool_coord_check(water) {
     var item = ARI.held_item();
     
     if (item != undefined) {
@@ -93,7 +93,7 @@ function re_wild_tool_coord_check() {
                 show_debug_message("NETNETNETNETNETNETNETNETNETNETNET");
                 _sound = "net";
             }
-            if (item.prototype.tool_type == ToolType.FishingRod) {
+            if (item.prototype.tool_type == ToolType.FishingRod || water == true) {
                 show_debug_message("RODRODRODRODRODRODRODRODRODRODROD");
                 _sound = "rod";
             }
@@ -101,9 +101,6 @@ function re_wild_tool_coord_check() {
             trace("-- trying coord teset");// obj.ari not ARI thx thunder
             trace(obj_ari.x);
             trace(obj_ari.y);
-
-            _xx = obj_ari.x;
-            _yy = obj_ari.y;
 
             return true;
         }
@@ -123,7 +120,7 @@ function re_wild_sound_set() {
 function re_wild_magic_trick(_dropped) { // YESSSSSSSSSSS
     trace(_dropped)
     trace("pre-fire")
-    drop_item(_dropped, _xx, _yy);
+    drop_item(_dropped, obj_ari.x, obj_ari.y);
     trace("shou;d've grebbaed succussfuly")
 }
 
@@ -196,8 +193,8 @@ function re_wild_ari_space_aval(_item) {
 // check all trigger vars
 function re_wild_trigger(_item) {
     var full = re_wild_is_ari_inventory_full();
-    var holding_tool = re_wild_tool_coord_check();
     var water = GRID.node_terrain_kind[GRID.node_index_for_room_position(obj_ari.x, obj_ari.y)] == TerrainKind.Water; // thunder
+    var holding_tool = re_wild_tool_coord_check(water);
     re_wild_ari_space_aval(_item);
     // re_wild_not_live(_item);
 
@@ -211,8 +208,8 @@ function re_wild_trigger(_item) {
 
     trace("ending checks")
 
-    trace(_xx);
-    trace(_yy);
+    trace(obj_ari.x);
+    trace(obj_ari.y);
     trace(_sound);
 
     if (full == true) && (_space == false) { // && (living == true);
@@ -227,7 +224,7 @@ function re_wild_trigger(_item) {
 };
 
 // pop up menu grabbed from UI Guide:
-function re_wild_popup(_dropped, _xx, _yy, _sound) {  // gives LiveItem (blehbleh)
+function re_wild_popup(_dropped, _sound) {  // gives LiveItem (blehbleh)
                                     // remove 'LiveItem (' + ')'
                                     // either that or see if spawn can push it
 
@@ -239,9 +236,8 @@ function re_wild_popup(_dropped, _xx, _yy, _sound) {  // gives LiveItem (blehble
     _popup.create_button(ANCHOR.wrap_for_local("Drop"), function() {
         show_debug_message("[ui_reference] Dropped");
         trace(_dropped);
-        trace(_xx);
-        trace(_yy);
-        re_wild_magic_trick(_dropped, _xx, _yy);
+
+        re_wild_magic_trick(_dropped);
     });
 
     _popup.create_button(ANCHOR.wrap_for_local("Release"), function() {
