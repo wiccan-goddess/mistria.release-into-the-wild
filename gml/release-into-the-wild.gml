@@ -98,24 +98,29 @@ function re_wild_ari_space_aval(_item) {
 // bugs for bugs
 // fishy for all fish
 
+//wrapped everything in a check
 function re_wild_not_live(_item) {
-    var taggy = _item.prototype.tags
+    if _item != undefined {
+        var taggy = _item.prototype.tags
 
-    if (taggy != undefined) {
-        trace(taggy);
+        if (taggy != undefined) {
+            trace(taggy);
 
-        var list_count = taggy.count() // thunder
+            var list_count = taggy.count() // thunder
 
-        // actual for loop
-        for (var i = 0; i < list_count; i++) {
-            var list = taggy.get(i)
-            trace(list)
+            // actual for loop
+            for (var i = 0; i < list_count; i++) {
+                var list = taggy.get(i)
+                trace(list)
 
-            if (list == "bugs" || list == "fishy") {
-                return true;           
-            } 
+                if (list == "bugs" || list == "fishy") {
+                    return true;           
+                } 
+            }
         }
     }
+
+    return false;
 };
 
 // okay so for the quest crash i'll try calling the living fn after base checks
