@@ -6,4 +6,6 @@ Version 1.1.0 // Fix
 Version 2.0.0 // Update
     - added names to the popup!
 Version 2.1.0 // Fix
-    - Fixed a bug that chashed the game on artifact discovery
+    - Fixed a bug that crashed the game on artifact discovery
+Version 2.1.1 // QoL
+    - Fixed spelling error (invintory -> inventory)

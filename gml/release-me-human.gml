@@ -184,7 +184,7 @@ function re_wild_popup(_dropped, _sound) {  // gives LiveItem (blehbleh)
 
     var _popup = popup_creator(
         ANCHOR.wrap_for_local("You caught a " + _name + "!"),//Your inventory is full... "),
-        ANCHOR.wrap_for_local("...but your invintory is full. Do you want to let the little one go back home?"),
+        ANCHOR.wrap_for_local("...but your inventory is full. Do you want to let the little one go back home?"),
     );
     
     _popup.create_button(ANCHOR.wrap_for_local("No"), function() {
